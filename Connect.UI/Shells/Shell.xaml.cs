@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using Serilog;
 
 namespace Connect.UI.Shells;
 
