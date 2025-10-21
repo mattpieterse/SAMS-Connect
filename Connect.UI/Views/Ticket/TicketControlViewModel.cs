@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ReactiveUI;
 
-namespace Connect.UI.Shells;
+namespace Connect.UI.Views.Ticket;
 
-public sealed partial class ShellViewModel
+public sealed partial class TicketControlViewModel
     : ObservableObject, IActivatableViewModel
 {
 #region Variables

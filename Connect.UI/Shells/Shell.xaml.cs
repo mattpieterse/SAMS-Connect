@@ -1,9 +1,8 @@
 ﻿using ReactiveUI;
-using Serilog;
 
 namespace Connect.UI.Shells;
 
-public partial class Shell
+public sealed partial class Shell
     : IViewFor<ShellViewModel>
 {
 #region Variables

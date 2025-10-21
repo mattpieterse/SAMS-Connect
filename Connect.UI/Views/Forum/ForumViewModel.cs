@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ReactiveUI;
 
-namespace Connect.UI.Shells;
+namespace Connect.UI.Views.Forum;
 
-public sealed partial class ShellViewModel
+public sealed partial class ForumViewModel
     : ObservableObject, IActivatableViewModel
 {
 #region Variables

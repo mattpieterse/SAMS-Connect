@@ -1,23 +1,23 @@
-﻿<Window
-    x:Class = "Connect.UI.Shells.Shell"
+﻿<Page
+    x:Class = "Connect.UI.Views.Ticket.TicketUpsertView"
     xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
     xmlns:c = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
     xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
-    xmlns:l = "clr-namespace:Connect.UI.Shells"
+    xmlns:l = "clr-namespace:Connect.UI.Views.Ticket"
     c:Ignorable = "d"
-    Title = "SAMS Connect"
+    Title = "TicketUpsertView"
     ScrollViewer.VerticalScrollBarVisibility = "Disabled"
     ScrollViewer.HorizontalScrollBarVisibility = "Disabled"
     ScrollViewer.CanContentScroll = "False"
     u:Design.Background = "{DynamicResource ApplicationBackgroundBrush}"
     u:Design.Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
     Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
-    d:DataContext = "{d:DesignInstance l:ShellViewModel}"
+    d:DataContext = "{d:DesignInstance l:TicketUpsertViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252">
     <Grid>
 
     </Grid>
-</Window>
+</Page>

@@ -1,6 +1,9 @@
 ﻿using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Connect.UI.Shells;
+using Connect.UI.Views.Forum;
+using Connect.UI.Views.Home;
+using Connect.UI.Views.Ticket;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -46,9 +49,16 @@ public sealed partial class App
         var services = new ServiceCollection();
 
         services
+            .AddSingleton<ThemeService>();
+
+        services
             .AddScoped<Shell>()
             .AddScoped<ShellViewModel>()
-            .AddSingleton<ThemeService>();
+            .AddScoped<AboutViewModel>()
+            .AddScoped<HomeViewModel>()
+            .AddScoped<ForumViewModel>()
+            .AddScoped<TicketControlViewModel>()
+            .AddScoped<TicketUpsertViewModel>();
 
         return services;
     }
