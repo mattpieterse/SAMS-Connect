@@ -36,10 +36,17 @@
     <ItemGroup>
       <Folder Include="Assets\Image\" />
       <Folder Include="Models\" />
-      <Folder Include="Shells\" />
       <Folder Include="Views\Forum\" />
       <Folder Include="Views\Home\" />
       <Folder Include="Views\Ticket\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Shells\Shell.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
     </ItemGroup>
 
 </Project>

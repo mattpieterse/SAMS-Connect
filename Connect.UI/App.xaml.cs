@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Connect.UI.Shells;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Wpf.Ui.Appearance;
@@ -22,7 +23,7 @@ public sealed partial class App
 
         UseApplicationThemes();
         var window = Ioc.Default.GetRequiredService<Shell>();
-            window.Show();
+        window.Show();
     }
 
 #endregion
@@ -34,6 +35,7 @@ public sealed partial class App
 
         services
             .AddScoped<Shell>()
+            .AddScoped<ShellViewModel>()
             .AddSingleton<ThemeService>();
 
         return services;
