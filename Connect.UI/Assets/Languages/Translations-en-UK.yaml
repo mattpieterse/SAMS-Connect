@@ -1,0 +1,6 @@
+app.name: SAMS Connect
+navigation.header.item.home: Home
+navigation.header.item.event: Community
+navigation.header.item.issue: Your Issues
+navigation.footer.item.theme: Theme
+navigation.footer.item.about: About

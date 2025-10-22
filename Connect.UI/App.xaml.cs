@@ -1,13 +1,19 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Reflection;
+using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Connect.UI.Shells;
 using Connect.UI.Views.Forum;
 using Connect.UI.Views.Home;
 using Connect.UI.Views.Ticket;
 using JetBrains.Annotations;
+using Lepo.i18n.DependencyInjection;
+using Lepo.i18n.Yaml;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using Wpf.Ui;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.DependencyInjection;
 using ThemeService = Connect.UI.Services.ThemeService;
 
 namespace Connect.UI;
@@ -49,7 +55,26 @@ public sealed partial class App
         var services = new ServiceCollection();
 
         services
+            .AddStringLocalizer(builder => {
+                    var app = Assembly.GetExecutingAssembly();
+                    builder.FromYaml(app, "/Assets/Languages/Translations-en-UK.yaml", new CultureInfo("en-US"));
+                    builder.FromYaml(app, "/Assets/Languages/Translations-en-UK.yaml", new CultureInfo("en-UK"));
+                    builder.FromYaml(app, "/Assets/Languages/Translations-en-UK.yaml", new CultureInfo("en-ZA"));
+                    builder.SetCulture(new CultureInfo("en-UK"));
+                }
+            )
+            .AddNavigationViewPageProvider()
+            .AddSingleton<INavigationService, NavigationService>()
+            .AddSingleton<IContentDialogService, ContentDialogService>()
+            .AddSingleton<ISnackbarService, SnackbarService>()
             .AddSingleton<ThemeService>();
+
+        services
+            .AddTransient<HomeView>()
+            .AddTransient<AboutView>()
+            .AddTransient<ForumView>()
+            .AddTransient<TicketControlView>()
+            .AddTransient<TicketUpsertView>();
 
         services
             .AddScoped<Shell>()
