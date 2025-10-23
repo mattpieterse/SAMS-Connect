@@ -4,6 +4,7 @@
     xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c = "http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:s = "clr-namespace:Lepo.i18n.Wpf;assembly=Lepo.i18n.Wpf"
     xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:l = "clr-namespace:Connect.UI.Views.Home"
     c:Ignorable = "d"
@@ -17,7 +18,197 @@
     d:DataContext = "{d:DesignInstance l:AboutViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252">
-    <Grid>
+    <Grid
+        VerticalAlignment = "Top"
+        MaxWidth = "1252"
+        Margin = "32">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height = "Auto" />
+            <RowDefinition
+                Height = "Auto" />
+        </Grid.RowDefinitions>
 
+        <StackPanel
+            Grid.Row = "0"
+            Margin = "0,0,0,24">
+
+            <u:TextBlock
+                Margin = "0,0,0,8"
+                FontTypography = "BodyStrong"
+                Text = "Appearance &amp; behavior" />
+
+            <u:CardControl
+                Margin = "0,0,0,12"
+                CornerRadius = "8"
+                Icon = "{u:SymbolIcon Color24}">
+                <u:CardControl.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height = "Auto" />
+                            <RowDefinition
+                                Height = "Auto" />
+                        </Grid.RowDefinitions>
+
+                        <u:TextBlock
+                            Grid.Row = "0"
+                            FontTypography = "Body"
+                            Text = "App theme" />
+
+                        <u:TextBlock
+                            Grid.Row = "1"
+                            Foreground = "{u:ThemeResource TextFillColorSecondaryBrush}"
+                            Text = "Select which app theme to display" />
+                    </Grid>
+                </u:CardControl.Header>
+
+                <ComboBox
+                    x:Name = "AppThemeComboBox"
+                    DisplayMemberPath = "DisplayText"
+                    SelectedValuePath = "Value"
+                    MinWidth = "200" />
+            </u:CardControl>
+
+            <u:CardControl
+                Margin = "0,0,0,0"
+                CornerRadius = "8"
+                Icon = "{u:SymbolIcon LocalLanguage24}">
+                <u:CardControl.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height = "Auto" />
+                            <RowDefinition
+                                Height = "Auto" />
+                        </Grid.RowDefinitions>
+
+                        <u:TextBlock
+                            Grid.Row = "0"
+                            FontTypography = "Body"
+                            Text = "Language" />
+
+                        <u:TextBlock
+                            Grid.Row = "1"
+                            Foreground = "{u:ThemeResource TextFillColorSecondaryBrush}"
+                            Text = "Use the app in your native language" />
+                    </Grid>
+                </u:CardControl.Header>
+
+                <ComboBox
+                    x:Name = "LanguageComboBox"
+                    DisplayMemberPath = "DisplayText"
+                    SelectedValuePath = "Value"
+                    MinWidth = "200" />
+            </u:CardControl>
+
+            <u:TextBlock
+                Margin = "0,24,0,8"
+                FontTypography = "BodyStrong"
+                Text = "About" />
+
+            <u:CardExpander
+                ContentPadding = "0"
+                CornerRadius = "8"
+                Icon = "{u:SymbolIcon Apps24}">
+                <u:CardExpander.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height = "Auto" />
+                            <RowDefinition
+                                Height = "Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width = "*" />
+                            <ColumnDefinition
+                                Width = "Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <u:TextBlock
+                            Grid.Row = "0"
+                            Grid.Column = "0"
+                            FontTypography = "Body"
+                            Text = "{s:StringLocalizer 'app.name'}" />
+
+                        <u:TextBlock
+                            Grid.Row = "1"
+                            Grid.Column = "0"
+                            Foreground = "{u:ThemeResource TextFillColorSecondaryBrush}"
+                            Text = "{s:StringLocalizer 'app.copyright'}" />
+
+                        <TextBlock
+                            Grid.Row = "0"
+                            Grid.RowSpan = "2"
+                            Grid.Column = "1"
+                            Margin = "0,0,16,0"
+                            VerticalAlignment = "Center"
+                            Foreground = "{u:ThemeResource TextFillColorSecondaryBrush}"
+                            Text = "{s:StringLocalizer 'app.version'}" />
+
+                    </Grid>
+                </u:CardExpander.Header>
+
+                <StackPanel>
+                    <u:Anchor
+                        Margin = "0"
+                        Padding = "16"
+                        HorizontalAlignment = "Stretch"
+                        HorizontalContentAlignment = "Stretch"
+                        Background = "Transparent"
+                        BorderThickness = "0,1,0,0"
+                        CornerRadius = "0"
+                        NavigateUri = "https://github.com/mattpieterse/SAMS-Connect">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width = "*" />
+                                <ColumnDefinition
+                                    Width = "Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Column = "0"
+                                Text = "{s:StringLocalizer 'page.about.version.dropdown.anchor.github.text'}" />
+
+                            <u:SymbolIcon
+                                Grid.Column = "1"
+                                Symbol = "Link24" />
+
+                        </Grid>
+                    </u:Anchor>
+                    <u:Anchor
+                        Margin = "0"
+                        Padding = "16"
+                        HorizontalAlignment = "Stretch"
+                        HorizontalContentAlignment = "Stretch"
+                        Background = "Transparent"
+                        BorderThickness = "0,1,0,1"
+                        CornerRadius = "0"
+                        NavigateUri = "https://github.com/mattpieterse">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width = "*" />
+                                <ColumnDefinition
+                                    Width = "Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Column = "0"
+                                Text = "{s:StringLocalizer 'page.about.version.dropdown.anchor.author.text'}" />
+
+                            <u:SymbolIcon
+                                Grid.Column = "1"
+                                Symbol = "Link24" />
+                        </Grid>
+                    </u:Anchor>
+                    <TextBlock
+                        Margin = "16"
+                        Text = "{s:StringLocalizer 'app.version'}" />
+                </StackPanel>
+            </u:CardExpander>
+        </StackPanel>
     </Grid>
 </Page>

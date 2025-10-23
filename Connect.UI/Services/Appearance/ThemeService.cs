@@ -2,9 +2,10 @@
 using System.Windows.Media;
 using Wpf.Ui.Appearance;
 
-namespace Connect.UI.Services;
+namespace Connect.UI.Services.Appearance;
 
 public sealed class ThemeService
+    : IThemeService
 {
 #region Variables
 

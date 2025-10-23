@@ -2,6 +2,8 @@
 using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Connect.UI.Services;
+using Connect.UI.Services.Appearance;
 using Connect.UI.Shells;
 using Connect.UI.Views.Forum;
 using Connect.UI.Views.Home;
@@ -14,7 +16,8 @@ using Serilog;
 using Wpf.Ui;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.DependencyInjection;
-using ThemeService = Connect.UI.Services.ThemeService;
+using IThemeService = Connect.UI.Services.Appearance.IThemeService;
+using ThemeService = Connect.UI.Services.Appearance.ThemeService;
 
 namespace Connect.UI;
 
@@ -57,17 +60,28 @@ public sealed partial class App
         services
             .AddStringLocalizer(builder => {
                     var app = Assembly.GetExecutingAssembly();
-                    builder.FromYaml(app, "/Assets/Languages/Translations-en-UK.yaml", new CultureInfo("en-US"));
-                    builder.FromYaml(app, "/Assets/Languages/Translations-en-UK.yaml", new CultureInfo("en-UK"));
-                    builder.FromYaml(app, "/Assets/Languages/Translations-en-UK.yaml", new CultureInfo("en-ZA"));
-                    builder.SetCulture(new CultureInfo("en-UK"));
+                    builder.FromYaml(app, "/Assets/Languages/Translations-en-US.yaml", new CultureInfo("en-US"));
+                    builder.FromYaml(app, "/Assets/Languages/Translations-en-GB.yaml", new CultureInfo("en-GB"));
+                    builder.FromYaml(app, "/Assets/Languages/Translations-en-ZA.yaml", new CultureInfo("en-ZA"));
+
+                    var allowed = new List<string> {
+                        new CultureInfo("en-GB").Name
+                    };
+
+                    var culture = allowed.Contains(CultureInfo.CurrentUICulture.Name)
+                        ? CultureInfo.CurrentCulture
+                        : new CultureInfo("en-GB");
+
+                    CultureInfo.CurrentUICulture = culture;
+                    CultureInfo.CurrentCulture = culture;
                 }
             )
             .AddNavigationViewPageProvider()
             .AddSingleton<INavigationService, NavigationService>()
             .AddSingleton<IContentDialogService, ContentDialogService>()
             .AddSingleton<ISnackbarService, SnackbarService>()
-            .AddSingleton<ThemeService>();
+            .AddSingleton<IToastService, ToastService>()
+            .AddSingleton<IThemeService, ThemeService>();
 
         services
             .AddTransient<HomeView>()

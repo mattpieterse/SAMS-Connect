@@ -1,4 +1,6 @@
-﻿using ReactiveUI;
+﻿using System.Windows;
+using Connect.UI.Views.Home;
+using ReactiveUI;
 using Wpf.Ui;
 using Wpf.Ui.Controls;
 
@@ -7,7 +9,7 @@ namespace Connect.UI.Shells;
 public sealed partial class Shell
     : IViewFor<ShellViewModel>
 {
-#region Variables
+#region Lifecycle
 
     public ShellViewModel? ViewModel { get; set; }
     object? IViewFor.ViewModel
@@ -34,6 +36,10 @@ public sealed partial class Shell
         contentDialogService.SetDialogHost(DialogHost);
         snackbarService.SetSnackbarPresenter(Toaster);
     }
+
+
+    private void NavigationView_OnLoaded(object sender, RoutedEventArgs e)
+        => NavigationView.Navigate(typeof(HomeView));
 
 #endregion
 }

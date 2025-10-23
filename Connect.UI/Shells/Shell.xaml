@@ -37,6 +37,7 @@
             IsBackButtonVisible = "Collapsed"
             IsPaneOpen = "False"
             Transition = "FadeInWithSlide"
+            Loaded="NavigationView_OnLoaded"
             OpenPaneLength = "220">
             <u:NavigationView.AutoSuggestBox>
                 <u:AutoSuggestBox
