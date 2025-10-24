@@ -1,4 +1,5 @@
-﻿using ReactiveUI;
+﻿using System.Reactive.Disposables.Fluent;
+using ReactiveUI;
 using Wpf.Ui.Abstractions.Controls;
 
 namespace Connect.UI.Views.Home;
@@ -20,11 +21,31 @@ public sealed partial class HomeView
 #region Lifecycle
 
     public HomeView(
-        HomeViewModel model
+        HomeViewModel viewModel
     ) {
-        ViewModel = model;
+        ViewModel = viewModel;
         DataContext = ViewModel;
+
         InitializeComponent();
+        this.WhenActivated(disposables => {
+            this.BindCommand(
+                ViewModel,
+                model => model.NavigateToEventsViewCommand,
+                view => view.NavigateToEventsButton
+            ).DisposeWith(disposables);
+
+            this.BindCommand(
+                ViewModel,
+                model => model.NavigateToTicketViewCommand,
+                view => view.NavigateToIssuesButton
+            ).DisposeWith(disposables);
+
+            this.BindCommand(
+                ViewModel,
+                model => model.NavigateToUpsertViewCommand,
+                view => view.NavigateToIssueUpsertButton
+            ).DisposeWith(disposables);
+        });
     }
 
 #endregion

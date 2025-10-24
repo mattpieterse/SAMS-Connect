@@ -4,6 +4,7 @@
     xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c = "http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:s = "clr-namespace:Lepo.i18n.Wpf;assembly=Lepo.i18n.Wpf"
     xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:l = "clr-namespace:Connect.UI.Views.Home"
     c:Ignorable = "d"
@@ -17,7 +18,210 @@
     d:DataContext = "{d:DesignInstance l:HomeViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252">
-    <Grid>
+    <Grid
+        HorizontalAlignment = "Center"
+        VerticalAlignment = "Center"
+        MaxWidth = "1252"
+        Margin = "32">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height = "Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition
+                Width = "Auto" />
+            <ColumnDefinition
+                Width = "32" />
+            <ColumnDefinition
+                Width = "Auto" />
+        </Grid.ColumnDefinitions>
 
+        <Grid
+            Grid.Row = "0"
+            Grid.Column = "0">
+            <Border
+                MaxWidth = "420"
+                BorderBrush = "{u:ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness = "1"
+                CornerRadius = "8,8,8,8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height = "Auto" />
+                        <RowDefinition
+                            Height = "Auto" />
+                        <RowDefinition
+                            Height = "Auto" />
+                    </Grid.RowDefinitions>
+
+                    <u:CardControl
+                        Grid.Row = "0"
+                        Padding = "0"
+                        BorderThickness = "0"
+                        CornerRadius = "8,8,0,0">
+                        <u:CardControl.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid
+                                    Grid.Row = "0"
+                                    Height = "140">
+
+                                    <u:Image
+                                        CornerRadius = "4"
+                                        BorderBrush = "#33000000"
+                                        Source = "../../Assets/Image/appicon.ico"
+                                        Stretch = "Fill" />
+                                </Grid>
+
+                                <Grid
+                                    Grid.Row = "1"
+                                    Margin = "16,24,16,24">
+                                    <StackPanel
+                                        Orientation = "Vertical">
+
+                                        <u:TextBlock
+                                            Margin = "0"
+                                            FontTypography = "Subtitle"
+                                            Text = "{s:StringLocalizer 'page.home.card.event.heading'}"
+                                            TextWrapping = "WrapWithOverflow" />
+
+                                        <Separator
+                                            Height = "10"
+                                            Width = "0" />
+
+                                        <u:TextBlock
+                                            Appearance = "Secondary"
+                                            Foreground = "{DynamicResource TextFillColorSecondaryBrush}"
+                                            Text = "{s:StringLocalizer 'page.home.card.event.message'}"
+                                            TextWrapping = "WrapWithOverflow" />
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </u:CardControl.Header>
+                    </u:CardControl>
+
+                    <Separator
+                        Grid.Row = "1"
+                        BorderBrush = "{u:ThemeResource CardStrokeColorDefaultBrush}" />
+
+                    <u:CardControl
+                        Grid.Row = "2"
+                        BorderThickness = "0"
+                        CornerRadius = "0,0,8,8">
+
+                        <u:Button
+                            x:Name = "NavigateToEventsButton"
+                            MinWidth = "200"
+                            Content = "{s:StringLocalizer 'page.home.card.event.control'}"
+                            CornerRadius = "6,6,6,6" />
+                    </u:CardControl>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid
+            Grid.Row = "0"
+            Grid.Column = "2">
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height = "*" />
+                <RowDefinition
+                    Height = "Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid
+                Grid.Row = "0">
+                <Border
+                    MaxWidth = "420"
+                    BorderBrush = "{u:ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness = "1"
+                    CornerRadius = "8,8,8,8">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height = "*" />
+                            <RowDefinition
+                                Height = "Auto" />
+                            <RowDefinition
+                                Height = "Auto" />
+                        </Grid.RowDefinitions>
+
+                        <u:CardControl
+                            Grid.Row = "0"
+                            VerticalAlignment = "Stretch"
+                            Padding = "0"
+                            BorderThickness = "0"
+                            CornerRadius = "8,8,0,0">
+                            <u:CardControl.Header>
+                                <Grid
+                                    Margin = "16,24,16,24"
+                                    VerticalAlignment = "Center">
+                                    <StackPanel
+                                        Orientation = "Vertical">
+
+                                        <u:TextBlock
+                                            Margin = "0"
+                                            FontTypography = "Subtitle"
+                                            Text = "{s:StringLocalizer 'page.home.card.issue.heading'}"
+                                            TextWrapping = "WrapWithOverflow" />
+
+                                        <Separator
+                                            Height = "10"
+                                            Width = "0" />
+
+                                        <u:TextBlock
+                                            Appearance = "Secondary"
+                                            Foreground = "{DynamicResource TextFillColorSecondaryBrush}"
+                                            Text = "{s:StringLocalizer 'page.home.card.issue.message'}"
+                                            TextWrapping = "WrapWithOverflow" />
+
+                                    </StackPanel>
+                                </Grid>
+                            </u:CardControl.Header>
+                        </u:CardControl>
+
+                        <Separator
+                            Grid.Row = "1"
+                            BorderBrush = "{u:ThemeResource CardStrokeColorDefaultBrush}"
+                            VerticalAlignment = "Top" />
+
+                        <Grid
+                            Grid.Row = "1">
+                        </Grid>
+
+                        <u:CardControl
+                            Grid.Row = "2"
+                            BorderThickness = "0"
+                            CornerRadius = "0,0,8,8">
+
+                            <u:Button
+                                x:Name = "NavigateToIssuesButton"
+                                MinWidth = "200"
+                                Content = "{s:StringLocalizer 'page.home.card.issue.control'}"
+                                CornerRadius = "6,6,6,6" />
+
+                        </u:CardControl>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid
+                Grid.Row = "1"
+                Margin = "0,32,0,0">
+                <u:CardControl
+                    x:Name = "NavigateToIssueUpsertButton"
+                    MaxWidth = "420"
+                    HorizontalContentAlignment = "Left"
+                    Content = "{s:StringLocalizer 'page.home.card.issue.upsert.control'}"
+                    Icon = "{u:SymbolIcon ChannelAdd24}"
+                    CornerRadius = "8" />
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
