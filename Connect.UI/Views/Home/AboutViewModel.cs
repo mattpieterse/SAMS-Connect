@@ -4,54 +4,41 @@ using System.Reactive.Disposables.Fluent;
 using System.Reactive.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Connect.UI.Models;
+using Connect.UI.Models.Annotations;
 using Connect.UI.Services.Appearance;
 using JetBrains.Annotations;
 using Lepo.i18n;
 using Microsoft.Extensions.Localization;
 using ReactiveUI;
+using ReactiveUI.SourceGenerators;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace Connect.UI.Views.Home;
 
-public sealed class AboutViewModel
-    : ObservableObject, IActivatableViewModel
+public sealed partial class AboutViewModel
+    : ReactiveObject, IActivatableViewModel
 {
 #region Variables
 
     public ViewModelActivator Activator { get; } = new();
 
 
+    [Reactive]
     private ApplicationTheme _selectedAppTheme;
-    public ApplicationTheme SelectedAppTheme
-    {
-        get => _selectedAppTheme;
-        [UsedImplicitly] set => SetProperty(ref _selectedAppTheme, value);
-    }
 
 
+    [Reactive]
+    [Lateinit]
     private CultureInfo _selectedLanguage = null!;
-    public CultureInfo SelectedLanguage
-    {
-        get => _selectedLanguage;
-        [UsedImplicitly] set => SetProperty(ref _selectedLanguage, value);
-    }
 
 
-    private readonly ObservableCollection<TypedComboBoxOption<ApplicationTheme>> _appThemeOptions = [];
-    public ObservableCollection<TypedComboBoxOption<ApplicationTheme>> AppThemeOptions
-    {
-        get => _appThemeOptions;
-        private init => SetProperty(ref _appThemeOptions, value);
-    }
+    [Reactive]
+    private ObservableCollection<TypedComboBoxOption<ApplicationTheme>> _appThemeOptions = [];
 
 
-    private readonly ObservableCollection<TypedComboBoxOption<CultureInfo>> _languageOptions = [];
-    public ObservableCollection<TypedComboBoxOption<CultureInfo>> LanguageOptions
-    {
-        get => _languageOptions;
-        private init => SetProperty(ref _languageOptions, value);
-    }
+    [Reactive]
+    private ObservableCollection<TypedComboBoxOption<CultureInfo>> _languageOptions = [];
 
 #endregion
 
@@ -63,6 +50,7 @@ public sealed class AboutViewModel
 
     public AboutViewModel(
         IStringLocalizer localizer,
+        ILocalizationCultureManager localizationCultureManager,
         IToastService toastService
     ) {
         _localizer = localizer;
@@ -71,11 +59,12 @@ public sealed class AboutViewModel
         AppThemeOptions = new ObservableCollection<TypedComboBoxOption<ApplicationTheme>>(ConstructAppThemeOptions());
         LanguageOptions = new ObservableCollection<TypedComboBoxOption<CultureInfo>>(ConstructLanguageOptions());
         SelectedAppTheme = ApplicationThemeManager.GetAppTheme();
-        SelectedLanguage = CultureInfo.CurrentUICulture;
+        SelectedLanguage = localizationCultureManager.GetCulture();
 
         this.WhenActivated(disposables => {
             this.WhenAnyValue(m => m.SelectedAppTheme)
                 .Skip(1)
+                .DistinctUntilChanged()
                 .Subscribe(value => {
                     ApplicationThemeManager.Apply(value);
                     OnAppThemeChangedSuccess();
@@ -87,9 +76,7 @@ public sealed class AboutViewModel
                 .DistinctUntilChanged()
                 .Subscribe(value => {
                     CultureInfo.CurrentUICulture = value;
-                    new LocalizationCultureManager()
-                        .SetCulture(value);
-
+                    localizationCultureManager.SetCulture(value);
                     OnLanguageChangedSuccess();
                 })
                 .DisposeWith(disposables);
