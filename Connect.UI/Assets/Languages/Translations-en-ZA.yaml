@@ -1,1 +1,55 @@
-app.name: ZA
+# App
+
+app.name: "SAMS Connect"
+app.version: "v0.0.100"
+app.copyright: "© 2025 ST10257002"
+
+# Navigation Sidebar
+
+navigation.header.item.home: "Home"
+navigation.header.item.event: "Community"
+navigation.header.item.issue: "Your Issues"
+navigation.footer.item.theme: "Theme"
+navigation.footer.item.about: "About"
+
+# PAGE: About
+
+page.about.apptheme.dropdown.option.light: "Light Theme"
+page.about.apptheme.dropdown.option.night: "Dark Theme"
+page.about.apptheme.dropdown.changed.to.light.on.success.toast.heading: "Living life on the bright side!"
+page.about.apptheme.dropdown.changed.to.night.on.success.toast.heading: "Welcome to the dark side!"
+page.about.apptheme.dropdown.changed.on.success.toast.message: "Your theme has changed."
+page.about.language.dropdown.changed.on.success.toast.heading: "Language switched to {0}!"
+page.about.language.dropdown.changed.on.success.toast.message: "Navigate to another page to see your language update in real-time."
+page.about.version.dropdown.anchor.github.text: "Explore the open-source repository"
+page.about.version.dropdown.anchor.author.text: "Learn more about the author"
+
+# PAGE: Home
+
+page.home.card.event.heading: "Local events and updates"
+page.home.card.event.message: "This forum is your central hub for upcoming industry events, critical policy announcements, and key service updates across local government to ensure you stay informed and connected within the sector."
+page.home.card.event.control: "View updates"
+page.home.card.issue.heading: "Track the status of your claims"
+page.home.card.issue.message: "We are committed to transparently addressing evey issue you report. Go here to see the live status of your claims, and manage them."
+page.home.card.issue.control: "View tickets"
+page.home.card.issue.upsert.control: "Send us a report of any new issues"
+
+# PAGE: Ticket Upsert
+
+page.ticket.upsert.form.heading: "Create a new issue report"
+page.ticket.upsert.form.caption: "{0}% Complete"
+page.ticket.upsert.form.pagination: "Step {0} of {1}"
+page.ticket.upsert.form.inputs.on.positive: "Continue"
+page.ticket.upsert.form.inputs.on.negative: "Cancel"
+page.ticket.upsert.form.files.on.positive: "Submit"
+page.ticket.upsert.form.files.on.negative: "Back"
+page.ticket.upsert.form.inputs.location.caption: "Location *"
+page.ticket.upsert.form.inputs.location.placeholder: "123 South African Street, Sandton, Gauteng, 3201"
+page.ticket.upsert.form.inputs.category.caption: "Category *"
+page.ticket.upsert.form.inputs.textarea.caption: "Describe the issue to us *"
+
+# Validation Errors
+
+form.validation.required: "This field is required and cannot be empty."
+form.validation.string.min.length: "Input must contain at least {0} characters."
+form.validation.string.max.length: "Input must contain more than {0} characters."

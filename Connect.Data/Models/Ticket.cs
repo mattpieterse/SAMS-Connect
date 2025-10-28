@@ -33,15 +33,6 @@ public class Ticket
 
     public MunicipalDepartment? Category { get; set; }
 
-
-    public MunicipalLocation? Province { get; set; }
-
-#endregion
-
-#region Schema | Local
-
-    public string Location { get; set; } = string.Empty;
-
 #endregion
 
 #endregion

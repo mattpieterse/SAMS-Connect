@@ -10,7 +10,6 @@ public interface ICitizenClaim
     public string Heading { get; set; }
     public string Content { get; set; }
     public MunicipalDepartment? Category { get; set; }
-    public MunicipalLocation? Province { get; set; }
 
 #endregion
 }

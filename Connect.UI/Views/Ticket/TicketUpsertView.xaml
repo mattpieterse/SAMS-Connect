@@ -4,20 +4,353 @@
     xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c = "http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:s = "clr-namespace:Lepo.i18n.Wpf;assembly=Lepo.i18n.Wpf"
     xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:l = "clr-namespace:Connect.UI.Views.Ticket"
     c:Ignorable = "d"
     Title = "TicketUpsertView"
-    ScrollViewer.VerticalScrollBarVisibility = "Disabled"
-    ScrollViewer.HorizontalScrollBarVisibility = "Disabled"
-    ScrollViewer.CanContentScroll = "False"
     u:Design.Background = "{DynamicResource ApplicationBackgroundBrush}"
     u:Design.Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
     Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
     d:DataContext = "{d:DesignInstance l:TicketUpsertViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252">
-    <Grid>
+    <Grid
+        VerticalAlignment = "Center"
+        MaxWidth = "1252"
+        Margin = "32">
 
+        <u:CardControl
+            Padding = "32"
+            CornerRadius = "8">
+            <u:CardControl.Header>
+                <Grid
+                    x:Name = "CardContents">
+                    <Grid.RowDefinitions>
+                        <RowDefinition
+                            Height = "Auto" />
+                        <RowDefinition
+                            Height = "24" />
+                        <RowDefinition
+                            Height = "Auto" />
+                        <RowDefinition
+                            Height = "24" />
+                        <RowDefinition
+                            Height = "Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Header -->
+                    <Grid
+                        x:Name = "HeaderContainer"
+                        Grid.Row = "0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition
+                                Height = "Auto" />
+                            <RowDefinition
+                                Height = "12" />
+                            <RowDefinition
+                                Height = "Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width = "*" />
+                            <ColumnDefinition
+                                Width = "Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel
+                            Grid.Row = "0"
+                            Grid.Column = "0"
+                            VerticalAlignment = "Center">
+                            <u:TextBlock
+                                Text = "{s:StringLocalizer 'page.ticket.upsert.form.heading'}"
+                                FontTypography = "Subtitle" />
+
+                            <u:TextBlock
+                                x:Name = "BreadcrumbText"
+                                Text = "{s:StringLocalizer 'page.ticket.upsert.form.pagination'}"
+                                Foreground = "{u:ThemeResource TextFillColorSecondaryBrush}"
+                                FontTypography = "Body" />
+                        </StackPanel>
+
+                        <u:TextBlock
+                            x:Name = "CompletionText"
+                            Grid.Row = "0"
+                            Grid.Column = "1"
+                            VerticalAlignment = "Center"
+                            Text = "{s:StringLocalizer 'page.ticket.upsert.form.caption'}"
+                            Foreground = "{u:ThemeResource TextFillColorSecondaryBrush}"
+                            FontTypography = "Body" />
+
+                        <ProgressBar
+                            x:Name = "CompletionView"
+                            Grid.Row = "2"
+                            Grid.Column = "0"
+                            Grid.ColumnSpan = "2"
+                            Height = "8" />
+                    </Grid>
+
+                    <!-- Inputs -->
+                    <Grid
+                        x:Name = "InputsContainer"
+                        Grid.Row = "2">
+
+                        <!-- Form (1) -->
+                        <Grid
+                            d:IsHidden = "True"
+                            x:Name = "FormContainer1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height = "Auto" />
+                                <RowDefinition
+                                    Height = "12" />
+                                <RowDefinition
+                                    Height = "Auto" />
+                                <RowDefinition
+                                    Height = "12" />
+                                <RowDefinition
+                                    Height = "Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid
+                                Grid.Row = "0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                    <RowDefinition
+                                        Height = "6" />
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                </Grid.RowDefinitions>
+
+                                <u:TextBlock
+                                    Text = "{s:StringLocalizer 'page.ticket.upsert.form.inputs.location.caption'}"
+                                    FontWeight = "SemiBold"
+                                    FontTypography = "Caption" />
+
+                                <StackPanel
+                                    Grid.Row = "2">
+
+                                    <u:TextBox
+                                        x:Name = "HeadingInput"
+                                        PlaceholderText = "{s:StringLocalizer 'page.ticket.upsert.form.inputs.location.placeholder'}"
+                                        Icon = "{u:SymbolIcon Map24}"
+                                        ClearButtonEnabled = "True" />
+
+                                    <u:TextBlock
+                                        x:Name = "HeadingInputErrorText"
+                                        Margin = "2,2,0,0"
+                                        Foreground = "{DynamicResource Error}"
+                                        FontTypography = "Caption"
+                                        FontSize = "10" />
+
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid
+                                Grid.Row = "2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                    <RowDefinition
+                                        Height = "6" />
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                </Grid.RowDefinitions>
+
+                                <u:TextBlock
+                                    Text = "{s:StringLocalizer 'page.ticket.upsert.form.inputs.category.caption'}"
+                                    FontWeight = "SemiBold"
+                                    FontTypography = "Caption" />
+
+                                <StackPanel
+                                    Grid.Row = "2">
+
+                                    <ComboBox
+                                        x:Name = "DepartmentInput"
+                                        DisplayMemberPath = "DisplayText"
+                                        SelectedValuePath = "Value" />
+
+                                    <u:TextBlock
+                                        x:Name = "DepartmentInputErrorText"
+                                        Margin = "2,2,0,0"
+                                        Foreground = "{DynamicResource Error}"
+                                        FontTypography = "Caption"
+                                        FontSize = "10" />
+
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid
+                                Grid.Row = "4">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                    <RowDefinition
+                                        Height = "6" />
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                </Grid.RowDefinitions>
+
+                                <u:TextBlock
+                                    Text = "{s:StringLocalizer 'page.ticket.upsert.form.inputs.textarea.caption'}"
+                                    FontWeight = "SemiBold"
+                                    FontTypography = "Caption" />
+
+                                <StackPanel
+                                    Grid.Row = "2">
+
+                                    <u:TextBox
+                                        x:Name = "ContentInput"
+                                        Height = "200"
+                                        TextWrapping = "Wrap"
+                                        VerticalScrollBarVisibility = "Auto"
+                                        AcceptsReturn = "True"
+                                        AcceptsTab = "True"
+                                        Icon = "{u:SymbolIcon DocumentOnePage24}"
+                                        ClearButtonEnabled = "False" />
+
+                                    <u:TextBlock
+                                        x:Name = "ContentInputErrorText"
+                                        Margin = "2,2,0,0"
+                                        Foreground = "{DynamicResource Error}"
+                                        FontTypography = "Caption"
+                                        FontSize = "10" />
+
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+
+                        <!-- Form (2) -->
+                        <Grid
+                            d:IsHidden = "False"
+                            x:Name = "FormContainer2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height = "Auto" />
+                                <RowDefinition
+                                    Height = "24" />
+                                <RowDefinition
+                                    Height = "Auto" />
+                                <RowDefinition
+                                    Height = "24" />
+                                <RowDefinition
+                                    Height = "Auto" />
+                            </Grid.RowDefinitions>
+
+                            <!-- Banner -->
+                            <Grid
+                                Grid.Row = "0">
+                                <u:CardControl
+                                    CornerRadius = "8"
+                                    Padding = "12,8"
+                                    HorizontalContentAlignment = "Left"
+                                    Content = "Attachments are optional, you can choose to submit the form without any files."
+                                    Icon = "{u:SymbolIcon Info24, FontSize=16}" />
+                            </Grid>
+
+                            <!-- Target -->
+                            <Grid
+                                Grid.Row = "2">
+                                <u:CardControl
+                                    CornerRadius = "8">
+                                    <u:CardControl.Header>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition
+                                                    Height = "Auto" />
+                                                <RowDefinition
+                                                    Height = "12" />
+                                                <RowDefinition
+                                                    Height = "264" />
+                                            </Grid.RowDefinitions>
+
+                                            <u:TextBlock
+                                                Grid.Row = "0"
+                                                Text = "Attachments (Optional)"
+                                                FontTypography = "BodyStrong" />
+
+                                            <Grid
+                                                Grid.Row = "2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition
+                                                        Height = "*" />
+                                                    <RowDefinition
+                                                        Height = "12" />
+                                                    <RowDefinition
+                                                        Height = "Auto" />
+                                                </Grid.RowDefinitions>
+
+                                                <Rectangle
+                                                    Grid.Row = "0"
+                                                    MinHeight="60"
+                                                    Opacity = "0.15"
+                                                    RadiusX = "4"
+                                                    RadiusY = "4"
+                                                    SnapsToDevicePixels = "True"
+                                                    Stroke = "{u:ThemeResource TextFillColorSecondaryBrush}"
+                                                    StrokeDashArray = "12,8" />
+
+                                                <u:MenuItem
+                                                    x:Name="FileButton"
+                                                    Grid.Row = "0"
+                                                    VerticalAlignment = "Center"
+                                                    HorizontalAlignment = "Center"
+                                                    Header = "Select a file to upload"
+                                                    Icon = "{u:SymbolIcon FolderArrowUp24}" />
+
+                                                <u:ListView
+                                                    x:Name="FileList"
+                                                    ScrollViewer.CanContentScroll = "False"
+                                                    Grid.Row = "2" >
+                                                    <u:ListView.Items>
+                                                        <TextBlock Text="Presentation.pptx" />
+                                                        <TextBlock Text="DataExport.csv" />
+                                                    </u:ListView.Items>
+                                                </u:ListView>
+                                            </Grid>
+                                        </Grid>
+                                    </u:CardControl.Header>
+                                </u:CardControl>
+                            </Grid>
+
+                            <!-- Viewer -->
+                            <Grid
+                                Grid.Row = "4">
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                    <!-- Footer -->
+                    <Grid
+                        x:Name = "FooterContainer"
+                        Grid.Row = "4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition
+                                Width = "*" />
+                            <ColumnDefinition
+                                Width = "6" />
+                            <ColumnDefinition
+                                Width = "Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <u:Button
+                            x:Name = "DecrementFormButton"
+                            Grid.Column = "0"
+                            HorizontalAlignment = "Right"
+                            Content = "Back"
+                            CornerRadius = "6" />
+
+                        <u:Button
+                            x:Name = "IncrementFormButton"
+                            Grid.Column = "2"
+                            MinWidth = "160"
+                            Appearance = "Primary"
+                            Content = "Next"
+                            CornerRadius = "6" />
+                    </Grid>
+                </Grid>
+            </u:CardControl.Header>
+        </u:CardControl>
     </Grid>
 </Page>

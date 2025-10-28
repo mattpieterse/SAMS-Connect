@@ -2,12 +2,14 @@
 using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Connect.UI.Services;
+using Connect.UI.Models.Data;
+using Connect.UI.Models.Data.Validations;
 using Connect.UI.Services.Appearance;
 using Connect.UI.Shells;
 using Connect.UI.Views.Forum;
 using Connect.UI.Views.Home;
 using Connect.UI.Views.Ticket;
+using FluentValidation;
 using JetBrains.Annotations;
 using Lepo.i18n.DependencyInjection;
 using Lepo.i18n.Yaml;
@@ -81,7 +83,8 @@ public sealed partial class App
             .AddSingleton<IContentDialogService, ContentDialogService>()
             .AddSingleton<ISnackbarService, SnackbarService>()
             .AddSingleton<IToastService, ToastService>()
-            .AddSingleton<IThemeService, ThemeService>();
+            .AddSingleton<IThemeService, ThemeService>()
+            .AddSingleton<IValidator<TicketDto>, TicketDtoValidator>();
 
         services
             .AddTransient<HomeView>()

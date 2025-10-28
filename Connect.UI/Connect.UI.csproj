@@ -19,11 +19,17 @@
     <ItemGroup>
         <PackageReference Include="CommunityToolkit.Common" Version="8.4.0"/>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0"/>
+        <PackageReference Include="FluentValidation" Version="12.0.0" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.2"/>
         <PackageReference Include="Lepo.i18n" Version="2.0.0"/>
         <PackageReference Include="Lepo.i18n.DependencyInjection" Version="2.0.0"/>
         <PackageReference Include="Lepo.i18n.Wpf" Version="2.0.0"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-rc.2.25502.107"/>
+        <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.5.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="ReactiveUI.Validation" Version="6.0.5"/>
         <PackageReference Include="ReactiveUI.WPF" Version="22.1.1"/>
         <PackageReference Include="Serilog" Version="4.3.1-dev-02387"/>
@@ -50,6 +56,10 @@
         </Resource>
         <EmbeddedResource Include="Assets\Languages\Translations-en-GB.yaml" />
         <EmbeddedResource Include="Assets\Languages\Translations-en-US.yaml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Connect.Data\Connect.Data.csproj" />
     </ItemGroup>
 
 </Project>
