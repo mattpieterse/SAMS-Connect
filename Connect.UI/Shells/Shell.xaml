@@ -23,7 +23,7 @@
     d:DataContext = "{d:DesignInstance l:ShellViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252"
-    MinHeight = "600"
+    MinHeight = "800"
     MinWidth = "800">
 
     <!-- UI -->

@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Connect.Data.Caches;
 using Connect.UI.Models.Data;
 using Connect.UI.Models.Data.Validations;
 using Connect.UI.Services.Appearance;
@@ -84,7 +85,8 @@ public sealed partial class App
             .AddSingleton<ISnackbarService, SnackbarService>()
             .AddSingleton<IToastService, ToastService>()
             .AddSingleton<IThemeService, ThemeService>()
-            .AddSingleton<IValidator<TicketDto>, TicketDtoValidator>();
+            .AddSingleton<IValidator<TicketDto>, TicketDtoValidator>()
+            .AddSingleton<TicketCache>();
 
         services
             .AddTransient<HomeView>()

@@ -2,6 +2,8 @@
 using System.Reactive.Disposables;
 using System.Reactive.Disposables.Fluent;
 using System.Reactive.Linq;
+using System.Windows.Controls;
+using Connect.UI.Models.Data;
 using Microsoft.Extensions.Localization;
 using ReactiveUI;
 using Wpf.Ui.Abstractions.Controls;
@@ -42,6 +44,12 @@ public sealed partial class TicketUpsertView
             SetupFormErrorBindings(disposables);
 
             this.OneWayBind(ViewModel, bind => bind.Form.CategoryOptions, view => view.DepartmentInput.ItemsSource)
+                .DisposeWith(disposables);
+
+            this.BindCommand(ViewModel, bind => bind.FileInsertCommand, view => view.FileInsertButton)
+                .DisposeWith(disposables);
+
+            this.OneWayBind(ViewModel, bind => bind.Form.Attachments, view => view.FileList.ItemsSource)
                 .DisposeWith(disposables);
 
             this.OneWayBind(

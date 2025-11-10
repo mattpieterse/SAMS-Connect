@@ -4,6 +4,7 @@
     xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:c = "http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:s = "clr-namespace:Lepo.i18n.Wpf;assembly=Lepo.i18n.Wpf"
     xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:l = "clr-namespace:Connect.UI.Views.Forum"
     c:Ignorable = "d"
@@ -17,7 +18,42 @@
     d:DataContext = "{d:DesignInstance l:ForumViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252">
-    <Grid>
+    <Grid
+        VerticalAlignment = "Top"
+        MaxWidth = "1252"
+        Margin = "32">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height = "Auto" />
+            <RowDefinition
+                Height = "12" />
+            <RowDefinition
+                Height = "*" />
+        </Grid.RowDefinitions>
 
+        <u:CardControl
+            Padding = "4"
+            CornerRadius = "8">
+            <u:CardControl.Header>
+                <Grid>
+                    <u:AutoSuggestBox
+                        PlaceholderText = "Search" />
+                </Grid>
+            </u:CardControl.Header>
+        </u:CardControl>
+
+        <Grid
+            Grid.Row = "2">
+            <u:CardControl
+                Padding = "4"
+                CornerRadius = "8">
+                <u:CardControl.Header>
+                    <Grid>
+                        <u:AutoSuggestBox
+                            PlaceholderText = "Search" />
+                    </Grid>
+                </u:CardControl.Header>
+            </u:CardControl>
+        </Grid>
     </Grid>
 </Page>

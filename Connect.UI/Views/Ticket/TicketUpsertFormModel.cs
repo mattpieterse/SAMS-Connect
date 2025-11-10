@@ -1,4 +1,5 @@
-﻿using System.Reactive.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Connect.Data.Models;
@@ -28,6 +29,10 @@ public sealed partial class TicketUpsertFormModel
     private MunicipalDepartment? _category;
 
 
+    [Reactive]
+    private ObservableCollection<FileAttachment> _attachments = [];
+
+
     [ObservableAsProperty]
     private IReadOnlyList<TypedComboBoxOption<MunicipalDepartment>> _categoryOptions = [];
 
@@ -52,6 +57,14 @@ public sealed partial class TicketUpsertFormModel
             .ToProperty(this, p => p.CategoryOptions);
 
         InitializeReactivity();
+    }
+
+
+    public void Clear() {
+        _heading = string.Empty;
+        _content = string.Empty;
+        _category = null;
+        _attachments = [];
     }
 
 #endregion

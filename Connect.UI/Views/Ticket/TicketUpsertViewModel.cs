@@ -1,11 +1,17 @@
 ﻿using System.Reactive;
 using System.Reactive.Linq;
+using Connect.Data.Caches;
+using Connect.Data.Models;
 using Connect.UI.Models;
 using Connect.UI.Models.Annotations;
+using Connect.UI.Models.Data;
+using DynamicData.Binding;
 using JetBrains.Annotations;
+using Microsoft.Win32;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 using Serilog;
+using Wpf.Ui;
 
 namespace Connect.UI.Views.Ticket;
 
@@ -28,14 +34,30 @@ public sealed partial class TicketUpsertViewModel
     [Lateinit]
     private ReactiveCommand<Unit, Unit> _negativeCommand = null!;
 
+
+    public ReactiveCommand<Unit, Unit> FileInsertCommand { get; }
+
+
+    public ReactiveCommand<FileAttachment, Unit> FileDeleteCommand { get; }
+
 #endregion
 
 #region Lifecycle
 
+    private readonly TicketCache _ticketCache;
+    private readonly INavigationService _navigationService;
+
+
     /// <summary>
     /// Constructor for <see cref="TicketUpsertViewModel"/>
     /// </summary>
-    public TicketUpsertViewModel() {
+    public TicketUpsertViewModel(
+        TicketCache ticketCache,
+        INavigationService navigationService
+    ) {
+        _ticketCache = ticketCache;
+        _navigationService = navigationService;
+
         var incrementFormCommand = ReactiveCommand.Create(
             State.NavigateNext,
             State.WhenAnyValue(
@@ -54,7 +76,6 @@ public sealed partial class TicketUpsertViewModel
 
         var submitFormCommand = ReactiveCommand.Create(SubmitForm);
         var cancelFormCommand = ReactiveCommand.Create(CancelForm);
-
         State.WhenAnyValue(state => state.CurrentIndex)
             .Select(index => (
                 onPositive: (index == TicketUpsertFormIndex.Input) ? incrementFormCommand : submitFormCommand,
@@ -64,6 +85,16 @@ public sealed partial class TicketUpsertViewModel
                 PositiveCommand = commands.onPositive;
                 NegativeCommand = commands.onNegative;
             });
+
+        FileInsertCommand = ReactiveCommand.Create(
+            execute: AttachFile,
+            canExecute: Form.Attachments
+                .ToObservableChangeSet()
+                .Select(_ => Form.Attachments.Count < 4)
+                .StartWith(true)
+        );
+
+        FileDeleteCommand = ReactiveCommand.Create<FileAttachment>(RemoveFile);
     }
 
 #endregion
@@ -75,7 +106,18 @@ public sealed partial class TicketUpsertViewModel
     /// </summary>
     [UsedImplicitly]
     private void SubmitForm() {
-        Log.Debug(nameof(SubmitForm));
+        Log.Debug(nameof(SubmitForm)); // TODO
+        _ticketCache.Insert(
+            new Data.Models.Ticket {
+                Heading = Form.Heading,
+                Content = Form.Content,
+                Category = Form.Category,
+            }
+        );
+
+        Form.Clear();
+        State.CurrentIndex = TicketUpsertFormIndex.Input;
+        _navigationService.GoBack();
     }
 
 
@@ -84,19 +126,32 @@ public sealed partial class TicketUpsertViewModel
     /// </summary>
     [UsedImplicitly]
     private void CancelForm() {
-        Log.Debug(nameof(CancelForm));
+        Log.Debug(nameof(CancelForm)); // TODO
     }
 
 
     [UsedImplicitly]
     private void AttachFile() {
-        Log.Debug(nameof(AttachFile));
+        // TODO: Guard against duplicate uploads
+
+        var openFileDialog = new OpenFileDialog {
+            Title = "Select your supporting images and documents",
+            CheckFileExists = true,
+            CheckPathExists = true,
+            Multiselect = false,
+        };
+
+        if (openFileDialog.ShowDialog() == true) {
+            Form.Attachments.Add(
+                new FileAttachment(openFileDialog.FileName)
+            );
+        }
     }
 
 
     [UsedImplicitly]
-    private void RemoveFile() {
-        Log.Debug(nameof(RemoveFile));
+    private void RemoveFile(FileAttachment attachment) {
+        Form.Attachments.Remove(attachment);
     }
 
 #endregion

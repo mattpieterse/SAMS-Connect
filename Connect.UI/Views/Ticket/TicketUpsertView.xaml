@@ -6,6 +6,7 @@
     xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
     xmlns:s = "clr-namespace:Lepo.i18n.Wpf;assembly=Lepo.i18n.Wpf"
     xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:dataModels = "clr-namespace:Connect.Data.Models;assembly=Connect.Data"
     xmlns:l = "clr-namespace:Connect.UI.Views.Ticket"
     c:Ignorable = "d"
     Title = "TicketUpsertView"
@@ -283,7 +284,7 @@
 
                                                 <Rectangle
                                                     Grid.Row = "0"
-                                                    MinHeight="60"
+                                                    MinHeight = "60"
                                                     Opacity = "0.15"
                                                     RadiusX = "4"
                                                     RadiusY = "4"
@@ -292,7 +293,7 @@
                                                     StrokeDashArray = "12,8" />
 
                                                 <u:MenuItem
-                                                    x:Name="FileButton"
+                                                    x:Name = "FileInsertButton"
                                                     Grid.Row = "0"
                                                     VerticalAlignment = "Center"
                                                     HorizontalAlignment = "Center"
@@ -300,13 +301,44 @@
                                                     Icon = "{u:SymbolIcon FolderArrowUp24}" />
 
                                                 <u:ListView
-                                                    x:Name="FileList"
+                                                    x:Name = "FileList"
+                                                    Grid.Row = "2"
                                                     ScrollViewer.CanContentScroll = "False"
-                                                    Grid.Row = "2" >
-                                                    <u:ListView.Items>
-                                                        <TextBlock Text="Presentation.pptx" />
-                                                        <TextBlock Text="DataExport.csv" />
-                                                    </u:ListView.Items>
+                                                    MinHeight = "0">
+                                                    <u:ListView.ItemTemplate>
+                                                        <DataTemplate
+                                                            DataType = "{x:Type dataModels:FileAttachment}">
+                                                            <Grid
+                                                                Margin = "4,0">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition
+                                                                        Width = "*" />
+                                                                    <ColumnDefinition
+                                                                        Width = "Auto" />
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <u:TextBlock
+                                                                    x:Name = "FileItemName"
+                                                                    Grid.Column = "0"
+                                                                    VerticalAlignment = "Center"
+                                                                    Text = "{Binding FileName}"
+                                                                    FontTypography = "Body" />
+
+                                                                <StackPanel
+                                                                    Grid.Column = "1"
+                                                                    VerticalAlignment = "Center"
+                                                                    HorizontalAlignment = "Right">
+
+                                                                    <u:MenuItem
+                                                                        x:Name = "FileItemDeleteButton"
+                                                                        Icon = "{u:SymbolIcon Dismiss24}"
+                                                                        Command = "{Binding DataContext.FileDeleteCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                                        CommandParameter = "{Binding}" />
+
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </u:ListView.ItemTemplate>
                                                 </u:ListView>
                                             </Grid>
                                         </Grid>
