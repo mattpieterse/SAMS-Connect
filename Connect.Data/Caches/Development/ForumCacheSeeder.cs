@@ -3,14 +3,23 @@ using Connect.Data.Models;
 
 namespace Connect.Data.Caches.Development;
 
-public sealed class ForumCacheSeeder
+/// <summary>
+/// Development-only seeder factory for the in-memory cache.
+/// </summary>
+/// <remarks>
+/// NOT IMPORTANT
+/// </remarks>
+public static class ForumCacheSeeder
 {
 #region Factory
 
     public static ConcurrentDictionary<DateTime, IForumBroadcast> Init() {
         var store = new ConcurrentDictionary<DateTime, IForumBroadcast>();
-        var currentTime = DateTime.Parse("2025-10-15 13:18:34Z");
+        var currentTime = DateTime.UtcNow;
 
+        /* Attribution: Seeder data sets
+         * - (ChatGPT) https://openai.com/
+         */
         var seeded = new IForumBroadcast[] {
             new ForumLetter {
                 Heading = "Planned Power Interruption: Central District Upgrade",
