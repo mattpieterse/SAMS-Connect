@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using Connect.Data.Caches.Development;
 using Connect.Data.Models;
 
 namespace Connect.Data.Caches;
@@ -7,13 +8,14 @@ public class ForumCache
 {
 #region Context
 
-    private readonly ConcurrentDictionary<DateTime, IForumBroadcast> _store = [];
+    private readonly ConcurrentDictionary<DateTime, IForumBroadcast> _store = ForumCacheSeeder.Init();
 
     private readonly ConcurrentDictionary<MunicipalDepartment, List<(DateTime timestamp, int weighting)>>
         _departmentFilterHistory = [];
 
     private readonly HashSet<MunicipalDepartment> _availableDepartments = [];
     private readonly HashSet<MunicipalProvincial> _availableProvincials = [];
+    private readonly HashSet<DateOnly> _uniqueDates = [];
 
     private MunicipalDepartment? _recommendedCategory;
 
@@ -119,6 +121,8 @@ public class ForumCache
 
 
     private void UpdateTrackingSets(IForumBroadcast instance) {
+        _uniqueDates.Add(DateOnly.FromDateTime(instance.CreatedAt));
+
         if (instance.Category.HasValue)
             _availableDepartments.Add(instance.Category.Value);
 
@@ -130,6 +134,8 @@ public class ForumCache
     private void HydrateTrackingSets() {
         _availableDepartments.Clear();
         _availableProvincials.Clear();
+        _uniqueDates.Clear();
+
         foreach (var instance in _store.Values) {
             UpdateTrackingSets(instance);
         }
@@ -159,7 +165,7 @@ public class ForumCache
     }
 
 
-    public void LogUsageOfDeparmentFilter(
+    public void LogUsageOfDepartmentFilter(
         IEnumerable<MunicipalDepartment> departments
     ) {
         var now = DateTime.UtcNow;
@@ -173,68 +179,6 @@ public class ForumCache
         }
 
         UpdateRecommendedCategory();
-    }
-
-#endregion
-
-#region Lifecycle
-
-    public ForumCache() => SeedDevelopmentData();
-
-#endregion
-
-#region Development
-
-    private void SeedDevelopmentData(
-        int eventCount = 5,
-        int letterCount = 5
-    ) {
-        var random = new Random();
-
-        string[] sampleHeadings = [
-            "System Update",
-            "Community Meeting",
-            "Policy Change",
-            "Urgent Notice",
-            "Weekly Newsletter"
-        ];
-
-        string[] sampleContents = [
-            "Please be advised of the following changes.",
-            "Join us for a discussion regarding upcoming projects.",
-            "New policies will take effect next month.",
-            "Immediate action is required by all departments.",
-            "Highlights from this week's activities."
-        ];
-
-        var allDepartments = Enum.GetValues(typeof(MunicipalDepartment)).Cast<MunicipalDepartment>().ToArray();
-        var allProvincials = Enum.GetValues(typeof(MunicipalProvincial)).Cast<MunicipalProvincial>().ToArray();
-
-        for (var i = 0; i < eventCount; i++) {
-            var forumEvent = new ForumEvent {
-                Heading = sampleHeadings[random.Next(sampleHeadings.Length)],
-                Content = sampleContents[random.Next(sampleContents.Length)],
-                Category = allDepartments[random.Next(allDepartments.Length)],
-                Location = allProvincials[random.Next(allProvincials.Length)],
-                CreatedAt = DateTime.UtcNow.AddDays(-random.Next(30)),
-                UpdatedAt = DateTime.UtcNow
-            };
-
-            Insert(forumEvent);
-        }
-
-        for (var i = 0; i < letterCount; i++) {
-            var forumLetter = new ForumLetter {
-                Heading = sampleHeadings[random.Next(sampleHeadings.Length)],
-                Content = sampleContents[random.Next(sampleContents.Length)],
-                Category = allDepartments[random.Next(allDepartments.Length)],
-                Location = allProvincials[random.Next(allProvincials.Length)],
-                CreatedAt = DateTime.UtcNow.AddDays(-random.Next(30)),
-                UpdatedAt = DateTime.UtcNow
-            };
-
-            Insert(forumLetter);
-        }
     }
 
 #endregion

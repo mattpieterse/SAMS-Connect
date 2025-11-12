@@ -99,7 +99,7 @@ public sealed partial class ForumViewModel
 
                 var newlySelected = currentSelection.Except(previousSelection).ToArray();
                 if (newlySelected.Length > 0) {
-                    _forumCache.LogUsageOfDeparmentFilter(newlySelected);
+                    _forumCache.LogUsageOfDepartmentFilter(newlySelected);
                 }
 
                 previousSelection = currentSelection;
