@@ -2,6 +2,8 @@
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text.RegularExpressions;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Connect.Data.Caches;
 using Connect.Data.Models;
 using Connect.UI.Models;
 using ReactiveUI;
@@ -65,8 +67,9 @@ public sealed partial class ForumViewFilters
 #region Internals
 
     private static IEnumerable<TypedCheckBoxOption<MunicipalDepartment>> ConstructDepartmentOptions() {
+        var forumCache = Ioc.Default.GetRequiredService<ForumCache>();
         return (
-            from MunicipalDepartment department in Enum.GetValues(typeof(MunicipalDepartment))
+            from MunicipalDepartment department in forumCache.GetAvailableDepartments()
             let displayText = MunicipalDepartmentEnumToDisplayStringConverter().Replace(department.ToString(), " $1")
             select new TypedCheckBoxOption<MunicipalDepartment>(department, displayText)
         );

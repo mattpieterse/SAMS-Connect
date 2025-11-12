@@ -8,7 +8,7 @@ public class ForumCache
 {
 #region Context
 
-    private readonly ConcurrentDictionary<DateTime, IForumBroadcast> _store = ForumCacheSeeder.Init();
+    private readonly ConcurrentDictionary<DateTime, IForumBroadcast> _store;
 
     private readonly ConcurrentDictionary<MunicipalDepartment, List<(DateTime timestamp, int weighting)>>
         _departmentFilterHistory = [];
@@ -179,6 +179,15 @@ public class ForumCache
         }
 
         UpdateRecommendedCategory();
+    }
+
+#endregion
+
+#region Lifecycle
+
+    public ForumCache() {
+        _store = ForumCacheSeeder.Init();
+        HydrateTrackingSets();
     }
 
 #endregion
