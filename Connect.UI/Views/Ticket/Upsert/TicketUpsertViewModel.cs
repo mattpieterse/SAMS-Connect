@@ -4,7 +4,6 @@ using Connect.Data.Caches;
 using Connect.Data.Models;
 using Connect.UI.Models;
 using Connect.UI.Models.Annotations;
-using Connect.UI.Models.Data;
 using DynamicData.Binding;
 using JetBrains.Annotations;
 using Microsoft.Win32;
@@ -13,7 +12,7 @@ using ReactiveUI.SourceGenerators;
 using Serilog;
 using Wpf.Ui;
 
-namespace Connect.UI.Views.Ticket;
+namespace Connect.UI.Views.Ticket.Upsert;
 
 public sealed partial class TicketUpsertViewModel
     : ReactiveObject, IActivatableViewModel
@@ -21,8 +20,8 @@ public sealed partial class TicketUpsertViewModel
 #region Variables
 
     public ViewModelActivator Activator { get; } = new();
-    public TicketUpsertStateModel State { get; } = new();
-    public TicketUpsertFormModel Form { get; } = new();
+    public Upsert.TicketUpsertStateModel State { get; } = new();
+    public Upsert.TicketUpsertFormModel Form { get; } = new();
 
 
     [Reactive]

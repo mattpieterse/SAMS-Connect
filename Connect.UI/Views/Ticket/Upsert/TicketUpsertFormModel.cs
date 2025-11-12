@@ -8,9 +8,8 @@ using Connect.UI.Models.Data;
 using FluentValidation;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
-using static System.Text.RegularExpressions.Regex;
 
-namespace Connect.UI.Views.Ticket;
+namespace Connect.UI.Views.Ticket.Upsert;
 
 public sealed partial class TicketUpsertFormModel
     : ReactiveForm<TicketDto>
@@ -54,7 +53,7 @@ public sealed partial class TicketUpsertFormModel
                 .ToList()
                 .AsReadOnly()
             )
-            .ToProperty(this, p => p.CategoryOptions);
+            .ToProperty<TicketUpsertFormModel, IReadOnlyList<TypedComboBoxOption<MunicipalDepartment>>>(this, p => p.CategoryOptions);
 
         InitializeReactivity();
     }
@@ -78,9 +77,9 @@ public sealed partial class TicketUpsertFormModel
     protected override IEnumerable<IObservable<object?>> ValidationTriggers
     {
         get {
-            yield return this.WhenAnyValue(p => p.Category).Select(o => (object?) o);
-            yield return this.WhenAnyValue(p => p.Heading);
-            yield return this.WhenAnyValue(p => p.Content);
+            yield return this.WhenAnyValue<TicketUpsertFormModel, MunicipalDepartment?>(p => p.Category).Select(o => (object?) o);
+            yield return this.WhenAnyValue<TicketUpsertFormModel, string>(p => p.Heading);
+            yield return this.WhenAnyValue<TicketUpsertFormModel, string>(p => p.Content);
         }
     }
 
@@ -88,9 +87,9 @@ public sealed partial class TicketUpsertFormModel
     protected override IEnumerable<IObservable<bool>> CompletionTriggers
     {
         get {
-            yield return this.WhenAnyValue(p => p.Category).Select(p => p is not null);
-            yield return this.WhenAnyValue(p => p.Heading).Select(p => !string.IsNullOrWhiteSpace(p));
-            yield return this.WhenAnyValue(p => p.Content).Select(p => !string.IsNullOrWhiteSpace(p));
+            yield return this.WhenAnyValue<TicketUpsertFormModel, MunicipalDepartment?>(p => p.Category).Select(p => p is not null);
+            yield return this.WhenAnyValue<TicketUpsertFormModel, string>(p => p.Heading).Select(p => !string.IsNullOrWhiteSpace(p));
+            yield return this.WhenAnyValue<TicketUpsertFormModel, string>(p => p.Content).Select(p => !string.IsNullOrWhiteSpace(p));
         }
     }
 

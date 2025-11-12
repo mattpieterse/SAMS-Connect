@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Connect.UI.Views.Forum;
 using Connect.UI.Views.Home;
 using Connect.UI.Views.Ticket;
+using Connect.UI.Views.Ticket.Control;
 using Microsoft.Extensions.Localization;
 using ReactiveUI;
 using Wpf.Ui.Appearance;

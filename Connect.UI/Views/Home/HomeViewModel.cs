@@ -2,6 +2,8 @@
 using System.Reactive.Linq;
 using Connect.UI.Views.Forum;
 using Connect.UI.Views.Ticket;
+using Connect.UI.Views.Ticket.Control;
+using Connect.UI.Views.Ticket.Upsert;
 using ReactiveUI;
 using Wpf.Ui;
 

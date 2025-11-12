@@ -2,13 +2,12 @@
 using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Connect.UI.Models;
-using Connect.UI.Models.Annotations;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Localization;
 using ReactiveUI;
 using ReactiveUI.SourceGenerators;
 
-namespace Connect.UI.Views.Ticket;
+namespace Connect.UI.Views.Ticket.Upsert;
 
 public sealed partial class TicketUpsertStateModel
     : ReactiveObject
@@ -53,7 +52,7 @@ public sealed partial class TicketUpsertStateModel
     /// Constructor for <see cref="TicketUpsertStateModel"/>
     /// </summary>
     public TicketUpsertStateModel() {
-        var observeCurrentIndex = this.WhenAnyValue(model => model.CurrentIndex);
+        var observeCurrentIndex = this.WhenAnyValue<TicketUpsertStateModel, TicketUpsertFormIndex>(model => model.CurrentIndex);
 
         _breadcrumbTextHelper = observeCurrentIndex
             .Select(index => _localizer[
@@ -91,7 +90,7 @@ public sealed partial class TicketUpsertStateModel
     /// <summary>
     /// Safely increments the current wizard page index.
     /// </summary>
-    /// <seealso cref="CurrentIndex"/>
+    /// <seealso cref="Ticket.TicketUpsertStateModel.CurrentIndex"/>
     [UsedImplicitly]
     public void NavigateNext() {
         if (CurrentIndex == TicketUpsertFormIndex.Input)
@@ -102,7 +101,7 @@ public sealed partial class TicketUpsertStateModel
     /// <summary>
     /// Safely decrements the current wizard page index.
     /// </summary>
-    /// <seealso cref="CurrentIndex"/>
+    /// <seealso cref="Ticket.TicketUpsertStateModel.CurrentIndex"/>
     [UsedImplicitly]
     public void NavigateBack() {
         if (CurrentIndex == TicketUpsertFormIndex.Files)

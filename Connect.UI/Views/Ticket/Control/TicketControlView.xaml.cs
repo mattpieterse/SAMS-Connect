@@ -1,7 +1,8 @@
-﻿using ReactiveUI;
+﻿using Connect.UI.Views.Ticket.Upsert;
+using ReactiveUI;
 using Wpf.Ui.Abstractions.Controls;
 
-namespace Connect.UI.Views.Ticket;
+namespace Connect.UI.Views.Ticket.Control;
 
 public sealed partial class TicketControlView
     : IViewFor<TicketControlViewModel>, INavigableView<TicketControlViewModel>

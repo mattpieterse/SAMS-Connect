@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using ReactiveUI;
 
-namespace Connect.UI.Views.Ticket;
+namespace Connect.UI.Views.Ticket.Upsert;
 
 public sealed partial class TicketControlViewModel
     : ObservableObject, IActivatableViewModel

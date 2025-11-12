@@ -10,6 +10,8 @@ using Connect.UI.Shells;
 using Connect.UI.Views.Forum;
 using Connect.UI.Views.Home;
 using Connect.UI.Views.Ticket;
+using Connect.UI.Views.Ticket.Control;
+using Connect.UI.Views.Ticket.Upsert;
 using FluentValidation;
 using JetBrains.Annotations;
 using Lepo.i18n.DependencyInjection;
@@ -21,6 +23,7 @@ using Wpf.Ui.Appearance;
 using Wpf.Ui.DependencyInjection;
 using IThemeService = Connect.UI.Services.Appearance.IThemeService;
 using ThemeService = Connect.UI.Services.Appearance.ThemeService;
+using TicketUpsertViewModel = Connect.UI.Views.Ticket.Upsert.TicketUpsertViewModel;
 
 namespace Connect.UI;
 

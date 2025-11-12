@@ -2,28 +2,26 @@
 using System.Reactive.Disposables;
 using System.Reactive.Disposables.Fluent;
 using System.Reactive.Linq;
-using System.Windows.Controls;
-using Connect.UI.Models.Data;
 using Microsoft.Extensions.Localization;
 using ReactiveUI;
 using Wpf.Ui.Abstractions.Controls;
 
-namespace Connect.UI.Views.Ticket;
+namespace Connect.UI.Views.Ticket.Upsert;
 
 public sealed partial class TicketUpsertView
-    : IViewFor<TicketUpsertViewModel>, INavigableView<TicketUpsertViewModel>
+    : IViewFor<Upsert.TicketUpsertViewModel>, INavigableView<Upsert.TicketUpsertViewModel>
 {
 #region Variables
 
     [AllowNull]
-    public TicketUpsertViewModel ViewModel { get; set; }
+    public Upsert.TicketUpsertViewModel ViewModel { get; set; }
 
 
     [NotNullIfNotNull(nameof(ViewModel))]
     object? IViewFor.ViewModel
     {
         get => ViewModel;
-        set => ViewModel = (TicketUpsertViewModel?) value;
+        set => ViewModel = (Upsert.TicketUpsertViewModel?) value;
     }
 
 #endregion
@@ -31,7 +29,7 @@ public sealed partial class TicketUpsertView
 #region Lifecycle
 
     public TicketUpsertView(
-        TicketUpsertViewModel viewModel,
+        Upsert.TicketUpsertViewModel viewModel,
         IStringLocalizer localizer
     ) {
         ViewModel = viewModel;
