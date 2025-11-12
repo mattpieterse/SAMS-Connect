@@ -7,6 +7,10 @@
     xmlns:s = "clr-namespace:Lepo.i18n.Wpf;assembly=Lepo.i18n.Wpf"
     xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:l = "clr-namespace:Connect.UI.Views.Forum"
+    xmlns:components = "clr-namespace:Connect.UI.Views.Forum.Components"
+    xmlns:converters = "clr-namespace:Connect.UI.Models.Converters"
+    xmlns:dataModels = "clr-namespace:Connect.Data.Models;assembly=Connect.Data"
+    xmlns:coreModels = "clr-namespace:Connect.UI.Models"
     c:Ignorable = "d"
     Title = "ForumView"
     ScrollViewer.VerticalScrollBarVisibility = "Disabled"
@@ -18,6 +22,13 @@
     d:DataContext = "{d:DesignInstance l:ForumViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252">
+
+    <Page.Resources>
+        <converters:TypeToBooleanConverter
+            x:Key = "IsForumEventConverter"
+            TargetType = "{x:Type dataModels:ForumEvent}" />
+    </Page.Resources>
+
     <Grid
         VerticalAlignment = "Top"
         MaxWidth = "1252"
@@ -31,29 +42,200 @@
                 Height = "*" />
         </Grid.RowDefinitions>
 
+        <Grid
+            HorizontalAlignment = "Right"
+            Grid.Row = "0">
+            <StackPanel
+                Orientation = "Horizontal">
+                <u:AutoSuggestBox
+                    x:Name = "SearchBox"
+                    DisplayMemberPath = "Heading"
+                    ClearButtonEnabled = "True"
+                    PlaceholderText = "Search"
+                    MinWidth = "320"
+                    MaxWidth = "320" />
+
+                <Separator
+                    Width = "12"
+                    Height = "0" />
+
+                <components:FilterButtonControl
+                    x:Name = "FilterButtonControl"
+                    d:DataContext = "{Binding}"
+                    ViewModel = "{Binding}" />
+
+            </StackPanel>
+        </Grid>
+
         <u:CardControl
-            Padding = "4"
+            Grid.Row = "2"
             CornerRadius = "8">
             <u:CardControl.Header>
-                <Grid>
-                    <u:AutoSuggestBox
-                        PlaceholderText = "Search" />
-                </Grid>
+                <u:ListView
+                    x:Name = "ForumList">
+                    <ScrollViewer.HorizontalScrollBarVisibility>
+                        Disabled
+                    </ScrollViewer.HorizontalScrollBarVisibility>
+                    <u:ListView.ItemTemplate>
+                        <DataTemplate
+                            DataType = "{x:Type coreModels:ForumBroadcastWrapper}">
+                            <u:CardControl
+                                Margin = "0,0,0,6"
+                                CornerRadius = "8">
+                                <u:CardControl.Header>
+                                    <Grid
+                                        Margin = "8,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition
+                                                Height = "*" />
+                                            <RowDefinition
+                                                Height = "*" />
+                                            <RowDefinition
+                                                Height = "Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition
+                                                Width = "Auto" />
+                                            <ColumnDefinition
+                                                Width = "*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid
+                                            Grid.RowSpan = "2"
+                                            Width = "32"
+                                            Height = "32"
+                                            Margin = "0"
+                                            HorizontalAlignment = "Center"
+                                            VerticalAlignment = "Center">
+
+                                            <Ellipse
+                                                Width = "32"
+                                                Height = "32"
+                                                Fill = "LightGray" />
+
+                                            <u:SymbolIcon
+                                                x:Name = "Icon"
+                                                Symbol = "Alert24"
+                                                FontSize = "16"
+                                                HorizontalAlignment = "Center"
+                                                VerticalAlignment = "Center" />
+
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row = "0"
+                                            Grid.Column = "1"
+                                            Margin = "12,6,0,0"
+                                            FontWeight = "Bold"
+                                            Text = "{Binding CategoryFormatted, Mode=OneWay}" />
+
+                                        <TextBlock
+                                            Grid.Row = "1"
+                                            Grid.Column = "1"
+                                            Margin = "12,0,0,6"
+                                            Foreground = "{u:ThemeResource TextFillColorSecondaryBrush}"
+                                            Text = "{Binding CreatedAtFormatted, Mode=OneWay}" />
+
+                                        <StackPanel
+                                            Grid.Row = "2"
+                                            Grid.Column = "0"
+                                            Grid.ColumnSpan = "2"
+                                            Orientation = "Vertical"
+                                            Margin = "0,4,8,4">
+                                            <StackPanel
+                                                Orientation = "Horizontal">
+                                                <u:SymbolIcon
+                                                    Symbol = "Star24"
+                                                    FontSize = "13"
+                                                    VerticalAlignment = "Center"
+                                                    Margin = "0,0,4,0">
+                                                    <u:SymbolIcon.Style>
+                                                        <Style
+                                                            TargetType = "u:SymbolIcon">
+                                                            <Setter
+                                                                Property = "Visibility"
+                                                                Value = "Collapsed" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger
+                                                                    Binding = "{Binding IsRecommended}"
+                                                                    Value = "True">
+                                                                    <Setter
+                                                                        Property = "Visibility"
+                                                                        Value = "Visible" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </u:SymbolIcon.Style>
+                                                </u:SymbolIcon>
+                                                <u:TextBlock
+                                                    FontSize = "13"
+                                                    FontWeight = "SemiBold"
+                                                    Text = "{Binding Instance.Heading, Mode=OneWay}"
+                                                    TextWrapping = "NoWrap"
+                                                    TextTrimming = "CharacterEllipsis" />
+                                            </StackPanel>
+
+                                            <Separator
+                                                Margin = "0,3"
+                                                Width = "0" />
+
+                                            <u:TextBlock
+                                                FontSize = "13"
+                                                Text = "{Binding Instance.Content, Mode=OneWay}"
+                                                TextWrapping = "Wrap"
+                                                TextTrimming = "CharacterEllipsis"
+                                                MaxHeight = "100" />
+                                        </StackPanel>
+                                    </Grid>
+                                </u:CardControl.Header>
+                            </u:CardControl>
+
+                            <DataTemplate.Triggers>
+                                <DataTrigger
+                                    Binding = "{Binding Converter={StaticResource IsForumEventConverter}}"
+                                    Value = "True">
+                                    <Setter
+                                        TargetName = "Icon"
+                                        Property = "Symbol"
+                                        Value = "{x:Static u:SymbolRegular.BuildingGovernment24}" />
+                                </DataTrigger>
+                                <DataTrigger
+                                    Binding = "{Binding Converter={StaticResource IsForumEventConverter}}"
+                                    Value = "False">
+                                    <Setter
+                                        TargetName = "Icon"
+                                        Property = "Symbol"
+                                        Value = "{x:Static u:SymbolRegular.Chat24}" />
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </u:ListView.ItemTemplate>
+
+                    <u:ListView.ItemContainerStyle>
+                        <Style
+                            TargetType = "ListViewItem">
+                            <Setter
+                                Property = "Focusable"
+                                Value = "False" />
+                            <Setter
+                                Property = "Background"
+                                Value = "Transparent" />
+                            <Setter
+                                Property = "BorderThickness"
+                                Value = "0" />
+                            <Setter
+                                Property = "Template">
+                                <Setter.Value>
+                                    <ControlTemplate
+                                        TargetType = "ListViewItem">
+                                        <ContentPresenter />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </u:ListView.ItemContainerStyle>
+                </u:ListView>
             </u:CardControl.Header>
         </u:CardControl>
-
-        <Grid
-            Grid.Row = "2">
-            <u:CardControl
-                Padding = "4"
-                CornerRadius = "8">
-                <u:CardControl.Header>
-                    <Grid>
-                        <u:AutoSuggestBox
-                            PlaceholderText = "Search" />
-                    </Grid>
-                </u:CardControl.Header>
-            </u:CardControl>
-        </Grid>
     </Grid>
 </Page>

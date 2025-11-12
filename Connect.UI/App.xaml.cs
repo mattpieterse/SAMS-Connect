@@ -86,7 +86,8 @@ public sealed partial class App
             .AddSingleton<IToastService, ToastService>()
             .AddSingleton<IThemeService, ThemeService>()
             .AddSingleton<IValidator<TicketDto>, TicketDtoValidator>()
-            .AddSingleton<TicketCache>();
+            .AddSingleton<TicketCache>()
+            .AddSingleton<ForumCache>();
 
         services
             .AddTransient<HomeView>()
@@ -110,7 +111,6 @@ public sealed partial class App
 
     private static LoggerConfiguration GetLogsConfiguration() {
         var configuration = new LoggerConfiguration();
-
         configuration
             .MinimumLevel.Debug()
             .WriteTo.File("logs.txt", rollingInterval: RollingInterval.Day)

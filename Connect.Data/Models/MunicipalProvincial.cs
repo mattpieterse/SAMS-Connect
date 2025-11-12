@@ -1,6 +1,6 @@
 ﻿namespace Connect.Data.Models;
 
-public enum MunicipalLocation
+public enum MunicipalProvincial
 {
     Ec,
     Fs,

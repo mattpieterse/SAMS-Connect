@@ -29,7 +29,7 @@ public class ForumLetter
     public MunicipalDepartment? Category { get; set; }
 
 
-    public MunicipalLocation? Location { get; set; }
+    public MunicipalProvincial? Location { get; set; }
 
 #endregion
 

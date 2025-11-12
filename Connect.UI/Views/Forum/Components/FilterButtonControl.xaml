@@ -1,0 +1,251 @@
+﻿<r:ReactiveUserControl
+    x:TypeArguments = "l:ForumViewModel"
+    x:Class = "Connect.UI.Views.Forum.Components.FilterButtonControl"
+    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:r = "http://reactiveui.net"
+    xmlns:l = "clr-namespace:Connect.UI.Views.Forum"
+    c:Ignorable = "d">
+
+    <Grid>
+        <u:DropDownButton
+            x:Name = "FiltersButton"
+            Content = "Filters"
+            Padding = "12,6"
+            Height = "36">
+            <u:DropDownButton.Flyout>
+                <ContextMenu
+                    Background = "{u:ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    HasDropShadow = "True">
+                    <ContextMenu.Resources>
+                        <SolidColorBrush
+                            x:Key = "{x:Static SystemColors.HighlightBrushKey}"
+                            Color = "Transparent" />
+                        <SolidColorBrush
+                            x:Key = "{x:Static SystemColors.ControlBrushKey}"
+                            Color = "Transparent" />
+                        <Style
+                            TargetType = "{x:Type MenuItem}">
+                            <Setter
+                                Property = "Template">
+                                <Setter.Value>
+                                    <ControlTemplate
+                                        TargetType = "{x:Type MenuItem}">
+                                        <ContentPresenter
+                                            Content = "{TemplateBinding Header}" />
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ContextMenu.Resources>
+
+                    <MenuItem>
+                        <MenuItem.Header>
+                            <Grid
+                                Width = "220">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                    <RowDefinition
+                                        Height = "Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid
+                                    Grid.Row = "0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition
+                                                Height = "Auto" />
+                                            <RowDefinition
+                                                Height = "Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition
+                                                Width = "*" />
+                                            <ColumnDefinition
+                                                Width = "Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <u:TextBlock
+                                            Grid.Row = "0"
+                                            Grid.Column = "0"
+                                            Margin = "8"
+                                            FontTypography = "Caption"
+                                            FontWeight = "SemiBold"
+                                            Text = "Filters"
+                                            TextWrapping = "WrapWithOverflow" />
+
+                                        <u:MenuItem
+                                            Grid.Row = "0"
+                                            Grid.Column = "1"
+                                            Icon = "{u:SymbolIcon Symbol=Dismiss12, FontSize=12}" />
+
+                                        <Separator
+                                            Grid.Row = "1"
+                                            Grid.Column = "0"
+                                            Grid.ColumnSpan = "2" />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid
+                                    Grid.Row = "1">
+                                    <StackPanel
+                                        Margin = "8"
+                                        Orientation = "Vertical">
+
+                                        <u:TextBlock
+                                            Appearance = "Secondary"
+                                            FontTypography = "Caption"
+                                            Foreground = "{DynamicResource TextFillColorSecondaryBrush}"
+                                            Text = "Show only posts on or between the earliest and latest dates set below."
+                                            TextWrapping = "WrapWithOverflow" />
+
+                                        <Separator
+                                            Height = "8"
+                                            Width = "0" />
+
+                                        <DatePicker
+                                            x:Name = "FilterDateStartSelector"
+                                            ToolTipService.ToolTip = "Items on or after this date"
+                                            FirstDayOfWeek = "Monday"
+                                            IsTodayHighlighted = "True"
+                                            SelectedDateFormat = "Short" />
+
+                                        <Separator
+                                            Height = "8"
+                                            Width = "0" />
+
+                                        <DatePicker
+                                            x:Name = "FilterDateFinalSelector"
+                                            ToolTipService.ToolTip = "Items on or before this date"
+                                            FirstDayOfWeek = "Monday"
+                                            IsTodayHighlighted = "True"
+                                            SelectedDateFormat = "Short" />
+
+                                        <Separator />
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid
+                                    Grid.Row = "2">
+                                    <StackPanel
+                                        Margin = "8"
+                                        Orientation = "Vertical">
+
+                                        <u:TextBlock
+                                            Appearance = "Secondary"
+                                            FontTypography = "Caption"
+                                            Foreground = "{DynamicResource TextFillColorSecondaryBrush}"
+                                            Text = "Department"
+                                            TextWrapping = "WrapWithOverflow" />
+
+                                        <Separator
+                                            Height = "8"
+                                            Width = "0" />
+
+                                        <u:ListView
+                                            x:Name = "FilterDepartments"
+                                            ScrollViewer.HorizontalScrollBarVisibility = "Disabled">
+                                            <u:ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid
+                                                        Margin = "4,0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition
+                                                                Width = "Auto" />
+                                                            <ColumnDefinition
+                                                                Width = "2" />
+                                                            <ColumnDefinition
+                                                                Width = "*" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <CheckBox
+                                                            Grid.Column = "0"
+                                                            x:Name = "DepartmentCheck"
+                                                            IsChecked = "{Binding IsSelected, Mode=TwoWay}"
+                                                            Padding = "0" />
+
+                                                        <u:TextBlock
+                                                            x:Name = "DepartmentTitle"
+                                                            Grid.Column = "2"
+                                                            Text = "{Binding DisplayText}"
+                                                            TextTrimming = "CharacterEllipsis"
+                                                            TextWrapping = "NoWrap"
+                                                            HorizontalAlignment = "Stretch"
+                                                            VerticalAlignment = "Center"
+                                                            FontTypography = "Body" />
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </u:ListView.ItemTemplate>
+                                            <ListView.ItemContainerStyle>
+                                                <Style
+                                                    TargetType = "ListViewItem">
+                                                    <Setter
+                                                        Property = "Focusable"
+                                                        Value = "False" />
+                                                    <Setter
+                                                        Property = "Background"
+                                                        Value = "Transparent" />
+                                                    <Setter
+                                                        Property = "BorderThickness"
+                                                        Value = "0" />
+                                                    <Setter
+                                                        Property = "Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate
+                                                                TargetType = "ListViewItem">
+                                                                <ContentPresenter />
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                        </u:ListView>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Grid
+                                    Grid.Row = "3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition
+                                            Height = "Auto" />
+                                        <RowDefinition
+                                            Height = "Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Separator
+                                        Grid.Row = "0" />
+
+                                    <u:MenuItem
+                                        x:Name = "ClearFiltersButton"
+                                        ToolTipService.ToolTip = "Undo all filters in this menu"
+                                        Grid.Row = "1"
+                                        Margin = "8"
+                                        HorizontalAlignment = "Right"
+                                        Header = "Clear" />
+
+                                </Grid>
+                            </Grid>
+                        </MenuItem.Header>
+                    </MenuItem>
+                </ContextMenu>
+
+
+            </u:DropDownButton.Flyout>
+        </u:DropDownButton>
+        <u:InfoBadge
+            x:Name = "FilterInfoBadge"
+            Severity = "Attention"
+            HorizontalAlignment = "Right"
+            VerticalAlignment = "Top"
+            Margin = "0,-8,-8,0" />
+    </Grid>
+</r:ReactiveUserControl>
