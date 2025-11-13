@@ -1,4 +1,5 @@
-﻿using Connect.UI.Views.Ticket.Upsert;
+﻿using System.Diagnostics.CodeAnalysis;
+using Connect.UI.Services.Appearance;
 using ReactiveUI;
 using Wpf.Ui.Abstractions.Controls;
 
@@ -9,11 +10,15 @@ public sealed partial class TicketControlView
 {
 #region Variables
 
+    [AllowNull]
     public TicketControlViewModel ViewModel { get; set; }
-    object IViewFor.ViewModel
+
+
+    [NotNullIfNotNull(nameof(ViewModel))]
+    object? IViewFor.ViewModel
     {
         get => ViewModel;
-        set => ViewModel = (TicketControlViewModel) value;
+        set => ViewModel = (TicketControlViewModel?) value;
     }
 
 #endregion
@@ -25,6 +30,7 @@ public sealed partial class TicketControlView
     ) {
         ViewModel = model;
         DataContext = ViewModel;
+
         InitializeComponent();
     }
 

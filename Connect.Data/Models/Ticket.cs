@@ -35,5 +35,14 @@ public class Ticket
 
 #endregion
 
+#region Schema | Admin
+
+    public TicketStatus Status { get; set; } = TicketStatus.Active;
+
+
+    public string TrackId { get; set; } = string.Empty;
+
+#endregion
+
 #endregion
 }

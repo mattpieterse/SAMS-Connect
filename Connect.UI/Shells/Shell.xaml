@@ -37,14 +37,16 @@
             IsBackButtonVisible = "Collapsed"
             IsPaneOpen = "False"
             Transition = "FadeInWithSlide"
-            Loaded="NavigationView_OnLoaded"
+            Loaded = "NavigationView_OnLoaded"
             OpenPaneLength = "220">
+            <!--
             <u:NavigationView.AutoSuggestBox>
                 <u:AutoSuggestBox
                     Icon = "{u:SymbolIcon Search24}"
                     PlaceholderText = "Search"
                     ClearButtonEnabled = "True" />
             </u:NavigationView.AutoSuggestBox>
+            -->
             <u:NavigationView.ContentOverlay>
                 <Grid>
                     <u:SnackbarPresenter

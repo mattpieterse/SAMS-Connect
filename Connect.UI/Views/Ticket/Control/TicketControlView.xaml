@@ -7,6 +7,7 @@
     xmlns:u = "http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:l = "clr-namespace:Connect.UI.Views.Ticket"
     xmlns:upsert = "clr-namespace:Connect.UI.Views.Ticket.Upsert"
+    xmlns:control = "clr-namespace:Connect.UI.Views.Ticket.Control"
     c:Ignorable = "d"
     Title = "TicketControlView"
     ScrollViewer.VerticalScrollBarVisibility = "Disabled"
@@ -15,7 +16,7 @@
     u:Design.Background = "{DynamicResource ApplicationBackgroundBrush}"
     u:Design.Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
     Foreground = "{DynamicResource TextFillColorPrimaryBrush}"
-    d:DataContext = "{d:DesignInstance upsert:TicketControlViewModel}"
+    d:DataContext = "{d:DesignInstance control:TicketControlViewModel}"
     d:DesignHeight = "800"
     d:DesignWidth = "1252">
     <Grid>

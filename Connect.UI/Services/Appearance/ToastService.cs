@@ -24,7 +24,7 @@ public class ToastService(
         snackbarService.Show(
             title: heading,
             message: message,
-            timeout: snackbarService.DefaultTimeOut,
+            timeout: TimeSpan.FromSeconds(10),
             appearance: appearance,
             icon: icon ?? new SymbolIcon() {
                 Symbol = defaultSymbol
