@@ -4,7 +4,7 @@
 
 ## Getting started
 
-**GitHub:** https://github.com/mattpieterse/IIEVC-SAMSConnect
+**GitHub:** https://github.com/mattpieterse/SAMS-Connect
 
 Watch the [video walkthrough](https://youtu.be/hLbq6MNjTWg) to see the application in action and
 learn how to use the issue reporting feature (5min). For markers discretion, an
@@ -36,7 +36,7 @@ IDE. To do so, click the green run icon at the top of the screen.
 3. Clone this repository using the following command:
 
 ``` bash
-git clone https://github.com/mattpieterse/IIEVC-SAMSConnect
+git clone https://github.com/mattpieterse/SAMS-Connect
 ```
 
 ### Creating your first report
