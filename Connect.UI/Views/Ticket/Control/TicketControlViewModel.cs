@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Text.RegularExpressions;
 using Connect.Data.Caches;
 using Connect.UI.Services.Appearance;
@@ -14,18 +16,17 @@ public sealed partial class TicketControlViewModel
 #region Variables
 
     public ViewModelActivator Activator { get; } = new();
+    public TicketControlViewFilters ListFilters { get; } = new();
+
+    public ReactiveCommand<Unit, Unit> ClearFiltersCommand { get; }
+
+
+    [Reactive]
+    private int _appliedFiltersCount;
 
 
     [Reactive]
     private ObservableCollection<Data.Models.Ticket> _cachedTickets = [];
-
-
-    [Reactive]
-    private ObservableCollection<Data.Models.Ticket> _searchTickets = [];
-
-
-    [Reactive]
-    private string _searchText = string.Empty;
 
 #endregion
 
@@ -43,11 +44,102 @@ public sealed partial class TicketControlViewModel
         IToastService toastService
     ) {
         _ticketCache = dbContext;
+        _toastService = toastService;
         CachedTickets = new ObservableCollection<Data.Models.Ticket>(
             _ticketCache.FetchAll()
         );
 
-        _toastService = toastService;
+        this.WhenAnyValue(
+                p => p.ListFilters.FilterStartDate,
+                p => p.ListFilters.FilterFinalDate
+            ).CombineLatest(ListFilters.SelectedDepartments, (dates, selectedDepartments) => {
+                var count = 0;
+                if (dates.Item1 is not null) count++;
+                if (dates.Item2 is not null) count++;
+                count += selectedDepartments.Count;
+                return count;
+            }).ObserveOn(RxApp.MainThreadScheduler)
+            .BindTo(this, p => p.AppliedFiltersCount);
+
+        var observeFilters = ObserveFilters();
+        observeFilters.BindTo(this, p => p.CachedTickets);
+
+        ClearFiltersCommand = ReactiveCommand.Create(ListFilters.Clear);
+
+        ShowToast();
+    }
+
+#endregion
+
+#region Internals
+
+    private IObservable<ObservableCollection<Data.Models.Ticket>> ObserveFilters() {
+        return ListFilters.SelectedDepartments
+            .CombineLatest(
+                this.WhenAnyValue(
+                    vm => vm.ListFilters.FilterStartDate,
+                    vm => vm.ListFilters.FilterFinalDate
+                ),
+                (departments, dates) => (
+                    Departments: departments.Select(d => d.Value).ToArray(),
+                    EarliestDate: dates.Item1,
+                    FurthestDate: dates.Item2
+                )
+            )
+            .Throttle(TimeSpan.FromMilliseconds(200))
+            .DistinctUntilChanged()
+            .Select(parameters => {
+                IReadOnlyList<Data.Models.Ticket> results;
+                var deptFilter = (parameters.Departments.Length > 0);
+                var dateFilter = parameters is {
+                    EarliestDate: not null,
+                    FurthestDate: not null
+                };
+
+                switch (deptFilter) {
+                case false when !dateFilter: {
+                    results = _ticketCache.FetchAll();
+                    break;
+                }
+                case false when dateFilter: {
+                    results = _ticketCache.FetchAllFilteredByDepartments(parameters.Departments);
+                    break;
+                }
+                case true when !dateFilter: {
+                    results = _ticketCache.FetchAllFilteredByDateBlanket(
+                        parameters.EarliestDate,
+                        parameters.FurthestDate
+                    );
+                    break;
+                }
+                default: {
+                    var deptsFiltered = _ticketCache
+                        .FetchAllFilteredByDepartments(parameters.Departments)
+                        .ToHashSet();
+
+                    var datesFiltered = _ticketCache.FetchAllFilteredByDateBlanket(
+                        parameters.EarliestDate,
+                        parameters.FurthestDate
+                    );
+
+                    results = deptsFiltered
+                        .Intersect(datesFiltered)
+                        .ToList()
+                        .AsReadOnly();
+
+                    break;
+                }
+                }
+
+                return new ObservableCollection<Data.Models.Ticket>(results);
+            })
+            .ObserveOn(RxApp.MainThreadScheduler)
+            .Publish()
+            .RefCount();
+    }
+
+
+    private void ShowToast() {
         _toastService.Warning(
             heading: "Important notice to citizens",
             message:

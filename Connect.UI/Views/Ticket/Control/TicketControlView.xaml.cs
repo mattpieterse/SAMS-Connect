@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Reactive.Disposables.Fluent;
 using Connect.UI.Services.Appearance;
 using ReactiveUI;
 using Wpf.Ui.Abstractions.Controls;
@@ -32,6 +33,13 @@ public sealed partial class TicketControlView
         DataContext = ViewModel;
 
         InitializeComponent();
+        this.WhenActivated(disposables => {
+            this.OneWayBind(
+                ViewModel,
+                bind => bind.CachedTickets,
+                view => view.TicketList.ItemsSource
+            ).DisposeWith(disposables);
+        });
     }
 
 #endregion
