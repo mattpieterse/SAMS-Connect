@@ -43,6 +43,12 @@ public sealed partial class TicketUpsertFormModel
     /// Constructor for <see cref="TicketUpsertFormModel"/>
     /// </summary>
     public TicketUpsertFormModel() {
+
+        /* ATTRIBUTION:
+         * The conversion of enum types to an object list was adapted from StackOverflow.
+         * - https://stackoverflow.com/questions/1167361/how-do-i-convert-an-enum-to-a-list-in-c
+         * - JakePearson (https://stackoverflow.com/users/632/jake-pearson)
+         */
         _categoryOptionsHelper = Observable
             .Return(Enum.GetValues(typeof(MunicipalDepartment))
                 .Cast<MunicipalDepartment>()
@@ -77,7 +83,7 @@ public sealed partial class TicketUpsertFormModel
     protected override IEnumerable<IObservable<object?>> ValidationTriggers
     {
         get {
-            yield return this.WhenAnyValue<TicketUpsertFormModel, MunicipalDepartment?>(p => p.Category).Select(o => (object?) o);
+            yield return this.WhenAnyValue(p => p.Category).Select(o => (object?) o);
             yield return this.WhenAnyValue<TicketUpsertFormModel, string>(p => p.Heading);
             yield return this.WhenAnyValue<TicketUpsertFormModel, string>(p => p.Content);
         }
@@ -87,7 +93,7 @@ public sealed partial class TicketUpsertFormModel
     protected override IEnumerable<IObservable<bool>> CompletionTriggers
     {
         get {
-            yield return this.WhenAnyValue<TicketUpsertFormModel, MunicipalDepartment?>(p => p.Category).Select(p => p is not null);
+            yield return this.WhenAnyValue(p => p.Category).Select(p => p is not null);
             yield return this.WhenAnyValue<TicketUpsertFormModel, string>(p => p.Heading).Select(p => !string.IsNullOrWhiteSpace(p));
             yield return this.WhenAnyValue<TicketUpsertFormModel, string>(p => p.Content).Select(p => !string.IsNullOrWhiteSpace(p));
         }

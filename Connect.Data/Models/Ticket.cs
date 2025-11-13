@@ -1,6 +1,8 @@
-﻿namespace Connect.Data.Models;
+﻿using System.Text.RegularExpressions;
 
-public class Ticket
+namespace Connect.Data.Models;
+
+public partial class Ticket
     : ICitizenClaim
 {
 #region Schema
@@ -33,16 +35,52 @@ public class Ticket
 
     public MunicipalDepartment? Category { get; set; }
 
+
+    public List<string> FileAttachments { get; set; } = [];
+
 #endregion
 
 #region Schema | Admin
 
     public TicketStatus Status { get; set; } = TicketStatus.Active;
 
-
-    public string TrackId { get; set; } = string.Empty;
+#endregion
 
 #endregion
+#region Extensions
+
+    public string CreatedAtFormatted =>
+        $"{CreatedAt:dd MMMM yyyy} • {CreatedAt:HH:mm}";
+
+
+    public string UpdatedAtFormatted =>
+        $"{UpdatedAt:dd MMMM yyyy} • {UpdatedAt:HH:mm}";
+
+
+    public string CategoryFormatted
+    {
+        get {
+            if (Category is not { } category) {
+                return "Unspecified";
+            }
+
+            var categoryName = category.ToString();
+            var readableString = categoryName.All(char.IsUpper)
+                ? string.Join(" ", categoryName.ToCharArray())
+                : MunicipalDepartmentToReadableString().Replace(categoryName, "$1 $2");
+
+            return $"Department of {readableString}";
+        }
+    }
+
+#endregion
+
+#region Expressions
+
+    [
+        GeneratedRegex("([a-z])([A-Z])")
+    ]
+    private static partial Regex MunicipalDepartmentToReadableString();
 
 #endregion
 }

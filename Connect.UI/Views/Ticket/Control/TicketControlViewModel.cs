@@ -91,10 +91,10 @@ public sealed partial class TicketControlViewModel
             .Select(parameters => {
                 IReadOnlyList<Data.Models.Ticket> results;
                 var deptFilter = (parameters.Departments.Length > 0);
-                var dateFilter = parameters is {
-                    EarliestDate: not null,
-                    FurthestDate: not null
-                };
+                var dateFilter = (
+                    parameters.EarliestDate is not null ||
+                    parameters.FurthestDate is not null
+                );
 
                 switch (deptFilter) {
                 case false when !dateFilter: {
@@ -102,14 +102,15 @@ public sealed partial class TicketControlViewModel
                     break;
                 }
                 case false when dateFilter: {
-                    results = _ticketCache.FetchAllFilteredByDepartments(parameters.Departments);
-                    break;
-                }
-                case true when !dateFilter: {
                     results = _ticketCache.FetchAllFilteredByDateBlanket(
                         parameters.EarliestDate,
                         parameters.FurthestDate
                     );
+
+                    break;
+                }
+                case true when !dateFilter: {
+                    results = _ticketCache.FetchAllFilteredByDepartments(parameters.Departments);
                     break;
                 }
                 default: {

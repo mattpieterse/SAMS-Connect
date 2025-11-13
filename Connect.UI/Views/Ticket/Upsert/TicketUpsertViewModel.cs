@@ -4,6 +4,7 @@ using Connect.Data.Caches;
 using Connect.Data.Models;
 using Connect.UI.Models;
 using Connect.UI.Models.Annotations;
+using Connect.UI.Services.Appearance;
 using DynamicData.Binding;
 using JetBrains.Annotations;
 using Microsoft.Win32;
@@ -24,6 +25,11 @@ public sealed partial class TicketUpsertViewModel
     public Upsert.TicketUpsertFormModel Form { get; } = new();
 
 
+    /* ATTRIBUTION:
+     * Commands and command button bindings were adapted from YouTube.
+     * - https://www.youtube.com/watch?v=HDSRG7GvPbo
+     * - ToskersCorner (https://www.youtube.com/@ToskersCorner)
+     */
     [Reactive]
     [Lateinit]
     private ReactiveCommand<Unit, Unit> _positiveCommand = null!;
@@ -105,18 +111,23 @@ public sealed partial class TicketUpsertViewModel
     /// </summary>
     [UsedImplicitly]
     private void SubmitForm() {
-        Log.Debug(nameof(SubmitForm)); // TODO
-        _ticketCache.Insert(
-            new Data.Models.Ticket {
-                Heading = Form.Heading,
-                Content = Form.Content,
-                Category = Form.Category,
-            }
-        );
+        Log.Debug(nameof(SubmitForm));
+        if (Form.IsValid) {
+            _ticketCache.Insert(
+                new Data.Models.Ticket {
+                    Heading = Form.Heading,
+                    Content = Form.Content,
+                    Category = Form.Category,
+                    FileAttachments = Form.Attachments
+                        .Select(item => item.FileName)
+                        .ToList()
+                }
+            );
 
-        Form.Clear();
-        State.CurrentIndex = TicketUpsertFormIndex.Input;
-        _navigationService.GoBack();
+            Form.Clear();
+            State.CurrentIndex = TicketUpsertFormIndex.Input;
+            _navigationService.GoBack();
+        }
     }
 
 
@@ -125,14 +136,17 @@ public sealed partial class TicketUpsertViewModel
     /// </summary>
     [UsedImplicitly]
     private void CancelForm() {
-        Log.Debug(nameof(CancelForm)); // TODO
+        Form.Clear();
+        State.CurrentIndex = TicketUpsertFormIndex.Input;
+        _navigationService.GoBack();
     }
 
 
     [UsedImplicitly]
     private void AttachFile() {
-        // TODO: Guard against duplicate uploads
-
+        /* Attribution: OpenFileDialog
+         * - https://learn.microsoft.com/en-us/dotnet/api/microsoft.win32.openfiledialog
+         */
         var openFileDialog = new OpenFileDialog {
             Title = "Select your supporting images and documents",
             CheckFileExists = true,

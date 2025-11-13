@@ -39,18 +39,6 @@
             Grid.Row = "0">
             <StackPanel
                 Orientation = "Horizontal">
-                <!-- <u:AutoSuggestBox -->
-                <!--     x:Name = "SearchBox" -->
-                <!--     DisplayMemberPath = "Heading" -->
-                <!--     ClearButtonEnabled = "True" -->
-                <!--     PlaceholderText = "Search" -->
-                <!--     MinWidth = "320" -->
-                <!--     MaxWidth = "320" /> -->
-
-                <Separator
-                    Width = "12"
-                    Height = "0" />
-
                 <components:FilterButtonControl
                     x:Name = "FilterButtonControl"
                     d:DataContext = "{Binding}"
@@ -72,204 +60,171 @@
                         <DataTemplate
                             DataType = "{x:Type dataModels:Ticket}">
                             <u:CardControl
-                                Margin = "0,0,0,8"
+                                Margin = "0,0,0,6"
                                 CornerRadius = "8">
                                 <u:CardControl.Header>
                                     <Grid
-                                        Margin = "16,12">
+                                        Margin = "12,8">
                                         <Grid.RowDefinitions>
                                             <RowDefinition
                                                 Height = "Auto" />
                                             <RowDefinition
-                                                Height = "8" />
-                                            <RowDefinition
                                                 Height = "Auto" />
-                                            <RowDefinition
-                                                Height = "12" />
                                             <RowDefinition
                                                 Height = "Auto" />
                                         </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition
+                                                Width = "Auto" />
+                                            <ColumnDefinition
+                                                Width = "*" />
+                                        </Grid.ColumnDefinitions>
 
-                                        <!-- Row 0: Heading and Status -->
+                                        <!-- Icon -->
                                         <Grid
-                                            Grid.Row = "0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition
-                                                    Width = "*" />
-                                                <ColumnDefinition
-                                                    Width = "Auto" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock
-                                                Grid.Column = "0"
-                                                Text = "{Binding Heading}"
+                                            Grid.RowSpan = "3"
+                                            Width = "32"
+                                            Height = "32"
+                                            HorizontalAlignment = "Center"
+                                            VerticalAlignment = "Top">
+                                            <Ellipse
+                                                Width = "32"
+                                                Height = "32"
+                                                Fill = "{DynamicResource ControlElevationBorderBrush}" />
+                                            <u:SymbolIcon
+                                                Symbol = "ClipboardBulletListLtr20"
                                                 FontSize = "16"
-                                                FontWeight = "SemiBold"
-                                                TextTrimming = "CharacterEllipsis"
+                                                HorizontalAlignment = "Center"
                                                 VerticalAlignment = "Center" />
-
-                                            <Border
-                                                Grid.Column = "1"
-                                                CornerRadius = "12"
-                                                Padding = "10,4"
-                                                Margin = "12,0,0,0">
-                                                <Border.Style>
-                                                    <Style
-                                                        TargetType = "Border">
-                                                        <Setter
-                                                            Property = "Background"
-                                                            Value = "#10B981" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger
-                                                                Binding = "{Binding Status}"
-                                                                Value = "Active">
-                                                                <Setter
-                                                                    Property = "Background"
-                                                                    Value = "#10B981" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding = "{Binding Status}"
-                                                                Value = "Pending">
-                                                                <Setter
-                                                                    Property = "Background"
-                                                                    Value = "#F59E0B" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding = "{Binding Status}"
-                                                                Value = "Resolved">
-                                                                <Setter
-                                                                    Property = "Background"
-                                                                    Value = "#3B82F6" />
-                                                            </DataTrigger>
-                                                            <DataTrigger
-                                                                Binding = "{Binding Status}"
-                                                                Value = "Closed">
-                                                                <Setter
-                                                                    Property = "Background"
-                                                                    Value = "#6B7280" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                                <TextBlock
-                                                    Text = "{Binding Status}"
-                                                    FontSize = "12"
-                                                    FontWeight = "Medium"
-                                                    Foreground = "White" />
-                                            </Border>
                                         </Grid>
 
-                                        <!-- Row 2: ID, Department, and DateTime -->
-                                        <Grid
-                                            Grid.Row = "2">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition
-                                                    Width = "Auto" />
-                                                <ColumnDefinition
-                                                    Width = "Auto" />
-                                                <ColumnDefinition
-                                                    Width = "Auto" />
-                                                <ColumnDefinition
-                                                    Width = "*" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <!-- Ticket ID -->
-                                            <StackPanel
-                                                Grid.Column = "0"
-                                                Orientation = "Horizontal"
-                                                Margin = "0,0,16,0">
-                                                <u:SymbolIcon
-                                                    Symbol = "NumberSymbolSquare20"
-                                                    FontSize = "14"
-                                                    Margin = "0,0,6,0"
-                                                    Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
-                                                <TextBlock
-                                                    Text = "{Binding TrackId}"
-                                                    FontSize = "13"
-                                                    Foreground = "{DynamicResource TextFillColorSecondaryBrush}" />
-                                            </StackPanel>
-
-                                            <!-- Separator -->
+                                        <!-- Header: Category and CreatedAt -->
+                                        <StackPanel
+                                            Grid.Row = "0"
+                                            Grid.Column = "1"
+                                            Orientation = "Horizontal"
+                                            VerticalAlignment = "Center"
+                                            Margin = "12,0,0,0">
                                             <TextBlock
-                                                Grid.Column = "1"
-                                                Text = "•"
+                                                Text = "{Binding CategoryFormatted, Mode=OneWay}"
+                                                FontWeight = "SemiBold"
                                                 FontSize = "13"
-                                                Margin = "0,0,16,0"
-                                                Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
-
-                                            <!-- Department -->
-                                            <StackPanel
-                                                Grid.Column = "2"
-                                                Orientation = "Horizontal"
-                                                Margin = "0,0,0,0">
-                                                <u:SymbolIcon
-                                                    Symbol = "Building20"
-                                                    FontSize = "14"
-                                                    Margin = "0,0,6,0"
-                                                    Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
-                                                <TextBlock
-                                                    Text = "{Binding CategoryFormatted}"
-                                                    FontSize = "13"
-                                                    Foreground = "{DynamicResource TextFillColorSecondaryBrush}" />
-                                            </StackPanel>
-
-                                            <!-- DateTime -->
-                                            <StackPanel
-                                                Grid.Column = "3"
-                                                Orientation = "Horizontal"
-                                                HorizontalAlignment = "Right">
-                                                <u:SymbolIcon
-                                                    Symbol = "Clock20"
-                                                    FontSize = "14"
-                                                    Margin = "0,0,6,0"
-                                                    Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
-                                                <TextBlock
-                                                    Text = "{Binding CreatedAtFormatted}"
-                                                    FontSize = "13"
-                                                    Foreground = "{DynamicResource TextFillColorSecondaryBrush}" />
-                                            </StackPanel>
-                                        </Grid>
-
-                                        <!-- Row 4: Description and File Count -->
-                                        <Grid
-                                            Grid.Row = "4">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition
-                                                    Width = "*" />
-                                                <ColumnDefinition
-                                                    Width = "Auto" />
-                                            </Grid.ColumnDefinitions>
-
-                                            <!-- Truncated Description -->
+                                                Foreground = "{DynamicResource TextFillColorPrimaryBrush}" />
                                             <TextBlock
-                                                Grid.Column = "0"
+                                                Text = "•"
+                                                Margin = "6,0"
+                                                Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
+                                            <TextBlock
+                                                Text = "{Binding CreatedAtFormatted, Mode=OneWay}"
+                                                FontSize = "12"
+                                                Foreground = "{DynamicResource TextFillColorSecondaryBrush}" />
+                                        </StackPanel>
+
+                                        <!-- Heading -->
+                                        <TextBlock
+                                            Grid.Row = "1"
+                                            Grid.Column = "1"
+                                            Margin = "12,2,0,0"
+                                            FontSize = "15"
+                                            FontWeight = "Bold"
+                                            Text = "{Binding Heading}"
+                                            TextWrapping = "NoWrap"
+                                            TextTrimming = "CharacterEllipsis"
+                                            Foreground = "{DynamicResource TextFillColorPrimaryBrush}" />
+
+                                        <!-- Content and Attachments -->
+                                        <StackPanel
+                                            Grid.Row = "2"
+                                            Grid.Column = "1"
+                                            Margin = "12,4,0,4"
+                                            Orientation = "Vertical">
+                                            <TextBlock
                                                 Text = "{Binding Content}"
                                                 FontSize = "13"
                                                 TextWrapping = "Wrap"
-                                                MaxHeight = "40"
-                                                LineHeight = "20"
-                                                Foreground = "{DynamicResource TextFillColorTertiaryBrush}"
                                                 TextTrimming = "CharacterEllipsis"
-                                                Margin = "0,0,12,0" />
+                                                MaxHeight = "60"
+                                                Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
 
-                                            <!-- File Count Badge -->
-                                            <StackPanel
-                                                Grid.Column = "1"
-                                                Orientation = "Horizontal"
-                                                VerticalAlignment = "Bottom">
-                                                <u:SymbolIcon
-                                                    Symbol = "Attach20"
-                                                    FontSize = "14"
-                                                    Margin = "0,0,4,0"
-                                                    Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
+                                            <Grid
+                                                Margin = "0,6,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition
+                                                        Width = "*" />
+                                                    <ColumnDefinition
+                                                        Width = "Auto" />
+                                                </Grid.ColumnDefinitions>
 
-                                                <!-- Text = "{Binding FileCount, StringFormat='{}{0} files'}" -->
-                                                <TextBlock
-                                                    Text = "4 files"
-                                                    FontSize = "12"
-                                                    Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
-                                            </StackPanel>
-                                        </Grid>
+                                                <!-- Status Badge -->
+                                                <Border
+                                                    Grid.Column = "0"
+                                                    HorizontalAlignment = "Left"
+                                                    CornerRadius = "12"
+                                                    Padding = "8,2"
+                                                    Margin = "0,0,0,0">
+                                                    <Border.Style>
+                                                        <Style
+                                                            TargetType = "Border">
+                                                            <Setter
+                                                                Property = "Background"
+                                                                Value = "#3B82F6" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger
+                                                                    Binding = "{Binding Status}"
+                                                                    Value = "Active">
+                                                                    <Setter
+                                                                        Property = "Background"
+                                                                        Value = "#3B82F6" />
+                                                                </DataTrigger>
+                                                                <DataTrigger
+                                                                    Binding = "{Binding Status}"
+                                                                    Value = "Cancelled">
+                                                                    <Setter
+                                                                        Property = "Background"
+                                                                        Value = "#F59E0B" />
+                                                                </DataTrigger>
+                                                                <DataTrigger
+                                                                    Binding = "{Binding Status}"
+                                                                    Value = "Completed">
+                                                                    <Setter
+                                                                        Property = "Background"
+                                                                        Value = "#10B981" />
+                                                                </DataTrigger>
+                                                                <DataTrigger
+                                                                    Binding = "{Binding Status}"
+                                                                    Value = "Sent">
+                                                                    <Setter
+                                                                        Property = "Background"
+                                                                        Value = "#6B7280" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock
+                                                        Text = "{Binding Status}"
+                                                        FontSize = "12"
+                                                        FontWeight = "Medium"
+                                                        Foreground = "White" />
+                                                </Border>
+
+                                                <!-- File Attachments -->
+                                                <StackPanel
+                                                    Grid.Column = "1"
+                                                    Orientation = "Horizontal"
+                                                    HorizontalAlignment = "Right"
+                                                    VerticalAlignment = "Center">
+                                                    <u:SymbolIcon
+                                                        Symbol = "Attach20"
+                                                        FontSize = "14"
+                                                        Margin = "0,0,4,0"
+                                                        Foreground = "{DynamicResource TextFillColorTertiaryBrush}" />
+                                                    <TextBlock
+                                                        Text = "{Binding FileAttachments.Count, StringFormat='{}{0} files'}"
+                                                        FontSize = "12"
+                                                        Foreground = "{DynamicResource TextFillColorSecondaryBrush}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
                                     </Grid>
                                 </u:CardControl.Header>
                             </u:CardControl>
